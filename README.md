@@ -1,4 +1,4 @@
 contacts-app
 ============
 
-Contacts Web App for iTechArt Java Training Courses
+Contacts Manager Web App for iTechArt Java Training Courses
