@@ -6,12 +6,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import com.itechart.training.tsvilik.contactsapp.dal.DataAccessException;
 import com.itechart.training.tsvilik.contactsapp.dal.Identified;
 
-public abstract class BaseDbDao<T extends Identified<PK>, PK>
-		implements GenericDao<T, PK> {
-	private Connection connection;
+public abstract class BaseDbDao<T extends Identified<PK>, PK> implements
+		GenericDao<T, PK> {
+	private DataSource dataSource;
 
 	public abstract String getSelectQuery();
 
@@ -30,18 +32,20 @@ public abstract class BaseDbDao<T extends Identified<PK>, PK>
 	protected abstract void prepareStatementForUpdate(
 			PreparedStatement statement, T object) throws DataAccessException;
 
-	public BaseDbDao(Connection connection) {
-		this.connection = connection;
+	public BaseDbDao(DataSource dataSource) {
+		this.dataSource = dataSource;
 	}
 
 	public T getByPK(PK key) throws DataAccessException {
 		List<T> list;
 		String sql = getSelectQuery();
 		sql += " WHERE id = ?";
-		try (PreparedStatement statement = connection.prepareStatement(sql)) {
+		try (Connection connection = dataSource.getConnection()) {
+			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setObject(1, key);
 			ResultSet rs = statement.executeQuery();
 			list = parseResultSet(rs);
+			statement.close();
 		} catch (SQLException e) {
 			throw new DataAccessException(e);
 		}
@@ -57,9 +61,11 @@ public abstract class BaseDbDao<T extends Identified<PK>, PK>
 	public List<T> getAll() throws DataAccessException {
 		List<T> list;
 		String sql = getSelectQuery();
-		try (PreparedStatement statement = connection.prepareStatement(sql)) {
+		try (Connection connection = dataSource.getConnection()) {
+			PreparedStatement statement = connection.prepareStatement(sql);
 			ResultSet rs = statement.executeQuery();
 			list = parseResultSet(rs);
+			statement.close();
 		} catch (SQLException e) {
 			throw new DataAccessException(e);
 		}
@@ -72,18 +78,21 @@ public abstract class BaseDbDao<T extends Identified<PK>, PK>
 		}
 		T persistInstance;
 		String sql = getInsertQuery();
-		try (PreparedStatement statement = connection.prepareStatement(sql)) {
+		try (Connection connection = dataSource.getConnection()) {
+			PreparedStatement statement = connection.prepareStatement(sql);
 			prepareStatementForInsert(statement, object);
 			int count = statement.executeUpdate();
 			if (count != 1) {
 				throw new DataAccessException(
 						"More then 1 record modified on insert: " + count);
 			}
+			statement.close();
 		} catch (SQLException e) {
 			throw new DataAccessException(e);
 		}
 		sql = getSelectQuery() + " WHERE id = last_insert_id();";
-		try (PreparedStatement statement = connection.prepareStatement(sql)) {
+		try (Connection connection = dataSource.getConnection()) {
+			PreparedStatement statement = connection.prepareStatement(sql);
 			ResultSet rs = statement.executeQuery();
 			List<T> list = parseResultSet(rs);
 			if ((list == null) || (list.size() != 1)) {
@@ -91,6 +100,7 @@ public abstract class BaseDbDao<T extends Identified<PK>, PK>
 						"Exception on findByPK new persist data.");
 			}
 			persistInstance = list.iterator().next();
+			statement.close();
 		} catch (SQLException e) {
 			throw new DataAccessException(e);
 		}
@@ -99,13 +109,15 @@ public abstract class BaseDbDao<T extends Identified<PK>, PK>
 
 	public void update(T object) throws DataAccessException {
 		String sql = getUpdateQuery();
-		try (PreparedStatement statement = connection.prepareStatement(sql);) {
+		try (Connection connection = dataSource.getConnection()) {
+			PreparedStatement statement = connection.prepareStatement(sql);
 			prepareStatementForUpdate(statement, object);
 			int count = statement.executeUpdate();
 			if (count != 1) {
 				throw new DataAccessException(
 						"More then 1 record modified on update: " + count);
 			}
+			statement.close();
 		} catch (SQLException e) {
 			throw new DataAccessException(e);
 		}
@@ -113,12 +125,9 @@ public abstract class BaseDbDao<T extends Identified<PK>, PK>
 
 	public void delete(T object) throws DataAccessException {
 		String sql = getDeleteQuery();
-		try (PreparedStatement statement = connection.prepareStatement(sql)) {
-			try {
-				statement.setObject(1, object.getId());
-			} catch (SQLException e) {
-				throw new DataAccessException(e);
-			}
+		try (Connection connection = dataSource.getConnection()) {
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setObject(1, object.getId());
 			int count = statement.executeUpdate();
 			if (count != 1) {
 				throw new DataAccessException(

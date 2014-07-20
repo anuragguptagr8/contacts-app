@@ -1,11 +1,12 @@
 package com.itechart.training.tsvilik.contactsapp.dal.dao.mysql;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.sql.DataSource;
 
 import com.itechart.training.tsvilik.contactsapp.dal.DataAccessException;
 import com.itechart.training.tsvilik.contactsapp.dal.dao.BaseDbDao;
@@ -16,12 +17,13 @@ public class MySqlContactDao extends BaseDbDao<Contact, Integer> implements Cont
 
 	protected String contactsTable = "`contacts-app-dev`.`contacts`";
 
-	public MySqlContactDao(Connection connection) {
-		super(connection);
+	public MySqlContactDao(DataSource dataSource) {
+		super(dataSource);
 	}
 
 	@Override
 	public String getSelectQuery() {
+		
 		return "SELECT `id`, `first_name`, `last_name`, `middle_name`, "
 				+ "`date_of_birth`,	`is_male`, `citizenship`, "
 				+ "`relationship_status_id`, `web_site`, `email`, `company`, "
@@ -60,6 +62,7 @@ public class MySqlContactDao extends BaseDbDao<Contact, Integer> implements Cont
         try {
             while (rs.next()) {
                 Contact contact = new Contact();
+                contact.setId(rs.getInt("id"));
                 contact.setFirstName(rs.getString("first_name"));
                 contact.setLastName(rs.getString("last_name"));
                 contact.setMiddleName(rs.getString("middle_name"));
