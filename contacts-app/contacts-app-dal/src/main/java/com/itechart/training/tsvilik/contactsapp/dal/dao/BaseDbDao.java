@@ -9,9 +9,9 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import com.itechart.training.tsvilik.contactsapp.dal.DataAccessException;
-import com.itechart.training.tsvilik.contactsapp.dal.Identified;
+import com.itechart.training.tsvilik.contactsapp.dal.Identifiable;
 
-public abstract class BaseDbDao<T extends Identified<PK>, PK> implements
+public abstract class BaseDbDao<T extends Identifiable<PK>, PK> implements
 		GenericDao<T, PK> {
 	private DataSource dataSource;
 
@@ -87,17 +87,14 @@ public abstract class BaseDbDao<T extends Identified<PK>, PK> implements
 						"More then 1 record modified on insert: " + count);
 			}
 			statement.close();
-		} catch (SQLException e) {
-			throw new DataAccessException(e);
-		}
-		sql = getSelectQuery() + " WHERE id = last_insert_id();";
-		try (Connection connection = dataSource.getConnection()) {
-			PreparedStatement statement = connection.prepareStatement(sql);
+
+			sql = getSelectQuery() + " WHERE id = last_insert_id();";
+			statement = connection.prepareStatement(sql);
 			ResultSet rs = statement.executeQuery();
 			List<T> list = parseResultSet(rs);
 			if ((list == null) || (list.size() != 1)) {
 				throw new DataAccessException(
-						"Exception on findByPK new persist data.");
+						"Exception on findByPK: new data SELECT error.");
 			}
 			persistInstance = list.iterator().next();
 			statement.close();

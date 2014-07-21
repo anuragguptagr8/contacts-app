@@ -24,21 +24,21 @@ public class MySqlPhoneNumberDao extends BaseDbDao<PhoneNumber, Integer>
 	@Override
 	public String getSelectQuery() {
 		return "SELECT `id`, `country_code`, `operator_code`, `number`, "
-				+ "`type_id`, `comment`, `phoneNumber_id` FROM " + numbersTable;
+				+ "`type_id`, `comment`, `contact_id` FROM " + numbersTable;
 	}
 
 	@Override
 	public String getInsertQuery() {
 		return "INSERT INTO " + numbersTable + " (`country_code`, "
 				+ "`operator_code`, `number`, `type_id`, `comment`, "
-				+ "`phoneNumber_id`) VALUES (?, ?, ?, ?, ?, ?);";
+				+ "`contact_id`) VALUES (?, ?, ?, ?, ?, ?);";
 	}
 
 	@Override
 	public String getUpdateQuery() {
 		return "UPDATE " + numbersTable + " SET `country_code`=?, "
 				+ "`operator_code`=?, `number`=?, `type_id`=?, `comment`=?, "
-				+ "`phoneNumber_id`=? WHERE `id`=?;";
+				+ "`contact_id`=? WHERE `id`=?;";
 	}
 
 	@Override

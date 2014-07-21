@@ -1,8 +1,8 @@
 package com.itechart.training.tsvilik.contactsapp.dal.transfer_objects;
 
-import com.itechart.training.tsvilik.contactsapp.dal.Identified;
+import com.itechart.training.tsvilik.contactsapp.dal.Identifiable;
 
-public class PhoneNumber implements Identified<Integer> {
+public class PhoneNumber implements Identifiable<Integer> {
 	private Integer id;
 	private Integer countryCode;
 	private Integer operatorCode;

@@ -1,5 +1,5 @@
 package com.itechart.training.tsvilik.contactsapp.dal;
 
-public interface Identified<PK> {
+public interface Identifiable<PK> {
 	public PK getId();
 }
