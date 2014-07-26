@@ -42,6 +42,11 @@ public class MySqlAttachmentDao extends BaseDbDao<Attachment, Integer> implement
 	}
 
 	@Override
+	protected String getCountQuery() {
+		return null;
+	}
+	
+	@Override
 	protected List<Attachment> parseResultSet(ResultSet rs)
 			throws DataAccessException {
 		// TODO Auto-generated method stub

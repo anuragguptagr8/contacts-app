@@ -45,6 +45,11 @@ public class MySqlPhoneNumberDao extends BaseDbDao<PhoneNumber, Integer>
 	public String getDeleteQuery() {
 		return "DELETE FROM " + numbersTable + " WHERE `id`=?;";
 	}
+	
+	@Override
+	protected String getCountQuery() {
+		return "SELECT count(*) FROM " + numbersTable;
+	}
 
 	@Override
 	protected List<PhoneNumber> parseResultSet(ResultSet rs)

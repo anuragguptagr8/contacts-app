@@ -42,6 +42,11 @@ public class MySqlPhotoDao extends BaseDbDao<Photo, Integer> implements
 	}
 
 	@Override
+	protected String getCountQuery() {
+		return "SELECT count(*) FROM " + photosTable;
+	}
+	
+	@Override
 	protected List<Photo> parseResultSet(ResultSet rs)
 			throws DataAccessException {
 		ArrayList<Photo> result = new ArrayList<Photo>();

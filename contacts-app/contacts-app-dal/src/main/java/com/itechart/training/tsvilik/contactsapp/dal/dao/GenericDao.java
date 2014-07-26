@@ -14,4 +14,6 @@ public interface GenericDao<T, PK> {
 	public void delete(T object) throws DataAccessException;
 
 	public List<T> getAll() throws DataAccessException;
+	 
+	public int getCount() throws DataAccessException;
 }

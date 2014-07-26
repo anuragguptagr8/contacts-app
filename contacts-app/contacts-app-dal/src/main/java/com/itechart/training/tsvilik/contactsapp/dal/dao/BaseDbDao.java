@@ -13,16 +13,18 @@ import com.itechart.training.tsvilik.contactsapp.dal.Identifiable;
 
 public abstract class BaseDbDao<T extends Identifiable<PK>, PK> implements
 		GenericDao<T, PK> {
-	private DataSource dataSource;
+	protected DataSource dataSource;
 
-	public abstract String getSelectQuery();
+	protected abstract String getSelectQuery();
 
-	public abstract String getInsertQuery();
+	protected abstract String getInsertQuery();
 
-	public abstract String getUpdateQuery();
+	protected abstract String getUpdateQuery();
 
-	public abstract String getDeleteQuery();
+	protected abstract String getDeleteQuery();
 
+	protected abstract String getCountQuery();
+	
 	protected abstract List<T> parseResultSet(ResultSet rs)
 			throws DataAccessException;
 
@@ -134,5 +136,21 @@ public abstract class BaseDbDao<T extends Identifiable<PK>, PK> implements
 		} catch (SQLException e) {
 			throw new DataAccessException(e);
 		}
+	}
+
+	public int getCount() throws DataAccessException {
+		String sql = getCountQuery();
+		int count = 0;
+		try (Connection connection = dataSource.getConnection()) {
+			PreparedStatement statement = connection.prepareStatement(sql);
+			ResultSet rs = statement.executeQuery();
+			if (rs.next()) {
+				count = rs.getInt(1);
+			}
+			statement.close();
+		} catch (SQLException e) {
+			throw new DataAccessException(e);
+		}
+		return count;
 	}
 }
