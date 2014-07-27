@@ -4,10 +4,10 @@ import java.util.List;
 
 import com.itechart.training.tsvilik.contactsapp.dal.DataAccessException;
 
-public interface GenericDao<T, PK> {
+public interface GenericDao<T, K> {
 	public T insert(T object) throws DataAccessException;
 
-	public T getByPK(PK key) throws DataAccessException;
+	public T getByKey(K key) throws DataAccessException;
 
 	public void update(T object) throws DataAccessException;
 

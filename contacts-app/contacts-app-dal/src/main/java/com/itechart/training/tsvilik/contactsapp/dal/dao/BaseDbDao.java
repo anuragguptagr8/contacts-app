@@ -11,8 +11,8 @@ import javax.sql.DataSource;
 import com.itechart.training.tsvilik.contactsapp.dal.DataAccessException;
 import com.itechart.training.tsvilik.contactsapp.dal.Identifiable;
 
-public abstract class BaseDbDao<T extends Identifiable<PK>, PK> implements
-		GenericDao<T, PK> {
+public abstract class BaseDbDao<T extends Identifiable<K>, K> implements
+		GenericDao<T, K> {
 	protected DataSource dataSource;
 
 	protected abstract String getSelectQuery();
@@ -38,7 +38,7 @@ public abstract class BaseDbDao<T extends Identifiable<PK>, PK> implements
 		this.dataSource = dataSource;
 	}
 
-	public T getByPK(PK key) throws DataAccessException {
+	public T getByKey(K key) throws DataAccessException {
 		List<T> list;
 		String sql = getSelectQuery();
 		sql += " WHERE id = ?";

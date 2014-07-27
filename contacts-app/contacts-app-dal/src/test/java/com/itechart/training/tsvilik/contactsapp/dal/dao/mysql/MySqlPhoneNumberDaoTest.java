@@ -35,7 +35,7 @@ public class MySqlPhoneNumberDaoTest {
 		PhoneNumber number2 = null;
 		try {
 			number = dao.insert(number);
-			number2 = dao.getByPK(number.getId());
+			number2 = dao.getByKey(number.getId());
 		} catch (DataAccessException e) {
 			fail(e.getMessage());
 		}
@@ -50,7 +50,7 @@ public class MySqlPhoneNumberDaoTest {
 		
 		try {
 			dao.update(number);
-			number2 = dao.getByPK(number.getId());
+			number2 = dao.getByKey(number.getId());
 		} catch (DataAccessException e) {
 			fail(e.getMessage());
 		}
@@ -58,7 +58,7 @@ public class MySqlPhoneNumberDaoTest {
 		
 		try {
 			dao.delete(number);
-			assertNull(dao.getByPK(number.getId()));
+			assertNull(dao.getByKey(number.getId()));
 		} catch (DataAccessException e) {
 			fail(e.getMessage());
 		}

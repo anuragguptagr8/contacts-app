@@ -65,6 +65,9 @@ public class MySqlContactDao extends BaseDbDao<Contact, Integer> implements
 	@Override
 	public List<Contact> getBatch(int batchSize, int batchNumber)
 			throws DataAccessException {
+		if ((batchSize <= 0) || (batchNumber < 0)) {
+			throw new DataAccessException("Wrong parameter values");
+		}
 		List<Contact> batch;
 		String sql = getSelectQuery()
 				+ " ORDER BY `last_name`, `first_name` ASC LIMIT ? OFFSET ?";

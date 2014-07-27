@@ -30,7 +30,7 @@ public class MySqlPhotoDaoTest {
 		Photo photo2 = null;
 		try {
 			photo = dao.insert(photo);
-			photo2 = dao.getByPK(photo.getId());
+			photo2 = dao.getByKey(photo.getId());
 		} catch (DataAccessException e) {
 			fail(e.getMessage());
 		}
@@ -40,7 +40,7 @@ public class MySqlPhotoDaoTest {
 		
 		try {
 			dao.update(photo);
-			photo2 = dao.getByPK(photo.getId());
+			photo2 = dao.getByKey(photo.getId());
 		} catch (DataAccessException e) {
 			fail(e.getMessage());
 		}
@@ -48,7 +48,7 @@ public class MySqlPhotoDaoTest {
 		
 		try {
 			dao.delete(photo);
-			assertNull(dao.getByPK(photo.getId()));
+			assertNull(dao.getByKey(photo.getId()));
 		} catch (DataAccessException e) {
 			fail(e.getMessage());
 		}
