@@ -9,8 +9,8 @@ import javax.sql.DataSource;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.itechart.training.tsvilik.contactsapp.bl.entities.Photo;
 import com.itechart.training.tsvilik.contactsapp.dal.DataAccessException;
-import com.itechart.training.tsvilik.contactsapp.dal.transfer_objects.Photo;
 
 public class MySqlPhotoDaoTest {
 

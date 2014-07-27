@@ -1,8 +1,6 @@
-package com.itechart.training.tsvilik.contactsapp.dal.transfer_objects;
+package com.itechart.training.tsvilik.contactsapp.entities;
 
 import java.util.Date;
-
-import com.itechart.training.tsvilik.contactsapp.dal.Identifiable;
 
 public class Contact implements Identifiable<Integer>{
 	private Integer id;

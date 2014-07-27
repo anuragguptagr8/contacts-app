@@ -11,7 +11,7 @@ import javax.sql.DataSource;
 import com.itechart.training.tsvilik.contactsapp.dal.DataAccessException;
 import com.itechart.training.tsvilik.contactsapp.dal.dao.BaseDbDao;
 import com.itechart.training.tsvilik.contactsapp.dal.dao.PhotoDao;
-import com.itechart.training.tsvilik.contactsapp.dal.transfer_objects.Photo;
+import com.itechart.training.tsvilik.contactsapp.entities.Photo;
 
 public class MySqlPhotoDao extends BaseDbDao<Photo, Integer> implements
 		PhotoDao {

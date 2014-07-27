@@ -12,7 +12,7 @@ import javax.sql.DataSource;
 import com.itechart.training.tsvilik.contactsapp.dal.DataAccessException;
 import com.itechart.training.tsvilik.contactsapp.dal.dao.BaseDbDao;
 import com.itechart.training.tsvilik.contactsapp.dal.dao.ContactDao;
-import com.itechart.training.tsvilik.contactsapp.dal.transfer_objects.Contact;
+import com.itechart.training.tsvilik.contactsapp.entities.Contact;
 
 public class MySqlContactDao extends BaseDbDao<Contact, Integer> implements
 		ContactDao {

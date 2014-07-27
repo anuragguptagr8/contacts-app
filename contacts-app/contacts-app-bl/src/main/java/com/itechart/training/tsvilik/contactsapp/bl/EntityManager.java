@@ -2,7 +2,7 @@ package com.itechart.training.tsvilik.contactsapp.bl;
 
 import java.util.List;
 
-import com.itechart.training.tsvilik.contactsapp.dal.Identifiable;
+import com.itechart.training.tsvilik.contactsapp.entities.Identifiable;
 
 public interface EntityManager<T extends Identifiable<K>, K> {
 	List<T> getAll() throws ModelException;

@@ -5,8 +5,8 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.itechart.training.tsvilik.contactsapp.dal.DataAccessException;
-import com.itechart.training.tsvilik.contactsapp.dal.Identifiable;
 import com.itechart.training.tsvilik.contactsapp.dal.dao.GenericDao;
+import com.itechart.training.tsvilik.contactsapp.entities.Identifiable;
 
 public abstract class AbstractEntityManager<T extends Identifiable<K>, K>
 		implements EntityManager<T, K> {

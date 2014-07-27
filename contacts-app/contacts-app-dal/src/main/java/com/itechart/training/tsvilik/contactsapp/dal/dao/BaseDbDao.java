@@ -9,7 +9,7 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import com.itechart.training.tsvilik.contactsapp.dal.DataAccessException;
-import com.itechart.training.tsvilik.contactsapp.dal.Identifiable;
+import com.itechart.training.tsvilik.contactsapp.entities.Identifiable;
 
 public abstract class BaseDbDao<T extends Identifiable<K>, K> implements
 		GenericDao<T, K> {

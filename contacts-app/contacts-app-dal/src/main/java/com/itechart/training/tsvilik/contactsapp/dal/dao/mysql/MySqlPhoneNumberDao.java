@@ -11,7 +11,7 @@ import javax.sql.DataSource;
 import com.itechart.training.tsvilik.contactsapp.dal.DataAccessException;
 import com.itechart.training.tsvilik.contactsapp.dal.dao.BaseDbDao;
 import com.itechart.training.tsvilik.contactsapp.dal.dao.PhoneNumberDao;
-import com.itechart.training.tsvilik.contactsapp.dal.transfer_objects.PhoneNumber;
+import com.itechart.training.tsvilik.contactsapp.entities.PhoneNumber;
 
 public class MySqlPhoneNumberDao extends BaseDbDao<PhoneNumber, Integer>
 		implements PhoneNumberDao {

@@ -9,7 +9,7 @@ import javax.sql.DataSource;
 import com.itechart.training.tsvilik.contactsapp.dal.DataAccessException;
 import com.itechart.training.tsvilik.contactsapp.dal.dao.AttachmentDao;
 import com.itechart.training.tsvilik.contactsapp.dal.dao.BaseDbDao;
-import com.itechart.training.tsvilik.contactsapp.dal.transfer_objects.Attachment;
+import com.itechart.training.tsvilik.contactsapp.entities.Attachment;
 
 public class MySqlAttachmentDao extends BaseDbDao<Attachment, Integer> implements AttachmentDao {
 

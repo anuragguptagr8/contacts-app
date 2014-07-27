@@ -8,7 +8,7 @@ import com.itechart.training.tsvilik.contactsapp.bl.AbstractEntityManager;
 import com.itechart.training.tsvilik.contactsapp.bl.ContactManager;
 import com.itechart.training.tsvilik.contactsapp.bl.ModelException;
 import com.itechart.training.tsvilik.contactsapp.dal.dao.ContactDao;
-import com.itechart.training.tsvilik.contactsapp.dal.transfer_objects.Contact;
+import com.itechart.training.tsvilik.contactsapp.entities.Contact;
 
 public class SimpleContactManager extends
 		AbstractEntityManager<Contact, Integer> implements ContactManager {

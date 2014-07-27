@@ -5,7 +5,7 @@ import org.apache.log4j.Logger;
 import com.itechart.training.tsvilik.contactsapp.bl.AbstractEntityManager;
 import com.itechart.training.tsvilik.contactsapp.bl.AttachmentManager;
 import com.itechart.training.tsvilik.contactsapp.dal.dao.AttachmentDao;
-import com.itechart.training.tsvilik.contactsapp.dal.transfer_objects.Attachment;
+import com.itechart.training.tsvilik.contactsapp.entities.Attachment;
 
 public class SimpleAttachmentManager extends
 		AbstractEntityManager<Attachment, Integer> implements AttachmentManager {

@@ -1,6 +1,4 @@
-package com.itechart.training.tsvilik.contactsapp.dal.transfer_objects;
-
-import com.itechart.training.tsvilik.contactsapp.dal.Identifiable;
+package com.itechart.training.tsvilik.contactsapp.entities;
 
 public class PhoneNumber implements Identifiable<Integer> {
 	private Integer id;
