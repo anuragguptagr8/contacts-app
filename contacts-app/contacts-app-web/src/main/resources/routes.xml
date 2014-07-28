@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<routing-info>
+	<controller-package>
+	   com.itechart.training.tsvilik.contactsapp.web.controllers
+	</controller-package>
+	<routes>
+		<route>
+			<path>/</path>
+			<controller>Home</controller>
+			<action>index</action>
+		</route>
+		<route>
+            <path>/contact</path>
+            <controller>Contact</controller>
+            <action>get</action>
+        </route>
+	</routes>
+</routing-info>
