@@ -19,9 +19,9 @@ public class FrontController extends HttpServlet {
 	protected void processRequest(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		ActionResult result = ActionDispatcher.dispatch(request);
-		logger.debug("Got result: " + result.getReturnPage());
-		getServletContext().getRequestDispatcher(result.getReturnPage()).forward(request,
-				response);
+		// logger.debug("Got result: " + result.getReturnPage());
+		getServletContext().getRequestDispatcher(result.getReturnPage())
+				.forward(result.getRequest(), response);
 	}
 
 	@Override

@@ -1,0 +1,135 @@
+.header {
+    padding: 30px 10px 20px;
+    position: relative;
+}
+
+.header a {
+    font-weight: 400;
+    color: #000;
+    text-decoration: none;
+}
+
+.header-sidebar {
+    position: absolute;
+    bottom: 10px;
+    right: 0;
+    padding: 10px;
+    font-size: large;
+    font-weight: 400;
+}
+
+.header-sidebar a {
+    color: #000;
+    text-decoration: none;
+}
+
+.header-sidebar a:hover {
+    text-decoration: underline;
+}
+
+.search-icon {
+    padding-right: 4px;
+    height: 0.7em;
+}
+
+.footer {
+    padding: 10px 0 0;
+    font-size: x-small;
+    text-align: center;
+}
+
+.footer, .push {
+    height: 2em;
+}
+
+.container {
+    position: relative;
+    box-shadow: 0 0 5px 2px #dfdad3;
+    border-radius: 10px;
+}
+
+.content {
+    margin-right: 22%;
+    padding: 10px;
+    background: #fff;
+    border-radius: 10px 0 0 10px;
+}
+
+.wrapper {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 0 -2em;
+}
+
+.sidebar {
+    background: #f4f4f4;
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 20%;
+    padding: 10px;
+    border-left: 1px solid #E0DEDB;
+    border-radius: 0 10px 10px 0;
+}
+
+.pagination {
+    margin: 10px;
+    text-align: center;
+    font-size: small;
+}
+
+.button {
+    display: block;
+    background: #fff;
+    border-radius: 3px;
+    margin: 10px 3px;
+    padding: 8px 10px;
+    background: #E3E2DB;
+    box-shadow: 2px 2px 2px 0 #BFBFBF;
+    color: #000;
+    text-decoration: none;
+}
+
+.small   {
+    padding: 4px 5px;
+    margin: 8px 3px;
+    font-size: small;
+}
+
+.center-text {
+    text-align: center;
+}
+
+.button-container {
+    width: 100%;
+    table-layout:fixed;
+}
+
+/* .button-container .button {
+    min-height: 100%;
+    line-height: 100%
+} */
+
+.label {
+    padding: 1em;
+}
+
+body {
+    font-family: "Proxima Nova Regular","Segoe UI",Roboto,"Droid Sans","Helvetica Neue",Arial,sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 90%;
+    background-color: #f3eee6;
+    width: 75%;
+    margin: 0 auto;
+}
+
+html, body {
+    height: 100%;
+}
+
+* {
+    margin: 0;
+}

@@ -1,0 +1,77 @@
+.avatar {
+    border: 1px solid #f1eee9;
+    border-radius: 4px;
+    width: 115px;
+    height: 115px;
+    position: absolute;
+}
+
+.contact-form {
+    margin-left: 120px;
+}
+
+.field {
+    display: table;
+    width: 100%;
+}
+
+.field-label {
+    float: left;
+    padding: 10px;
+    width: 25%;
+    text-align: right;
+}
+
+.field-input {
+    padding: 10px;
+    width: 65%;
+    float: left;
+}
+
+.field-input input[type=text],select {
+    width: 100%;
+}
+
+input, select {
+    border-radius: 4px;
+    border-width: 1px;
+}
+
+.content {
+    margin-right: 32%;
+}
+
+.sidebar {
+    width: 30%;
+}
+
+.phone-comments {
+    font-size: x-small;
+    font-style: italic;
+}
+
+.attachments-list {
+    width: 100%;
+    /* word-break: break-all; */
+}
+
+.attachments-list td {
+    padding: 5px;
+} 
+
+.attachment-name {
+    display: inline;
+}
+
+.attachment-date {
+    font-size: small;
+    float: right;
+}
+
+.attachment-comments {
+    font-size: x-small;
+}
+
+.edit-button {
+    float: right;
+}
