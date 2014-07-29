@@ -9,6 +9,7 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>contacts-app-dal</artifactId>
+	<packaging>jar</packaging>
 	<name>Contacts Manager Data Access Layer</name>
 	<url>http://maven.apache.org</url>
 	<properties>
@@ -19,7 +20,6 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.6</version>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
             <groupId>com.itechart.training.tsvilik</groupId>
@@ -27,5 +27,11 @@
             <version>0.0.1-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
+		<dependency>
+			<groupId>org.apache.tomcat</groupId>
+			<artifactId>tomcat-jdbc</artifactId>
+			<version>7.0.54</version>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 </project>

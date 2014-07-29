@@ -34,15 +34,18 @@ public class ContactController {
 			pageNumber = getRequestedPageNumber(request);
 			List<Contact> requestedContacts = contactManager.getBatch(
 					CONTACTS_PER_PAGE, pageNumber - 1);
+			logger.debug("Got " + requestedContacts.size() + " contacts");
 			request.setAttribute("contacts", requestedContacts);
 			request.setAttribute("page", pageNumber);
+			request.setAttribute("totalpages", getNumberOfPages());
+			logger.debug("total-pages: " + request.getAttribute("totalpages"));
 		} catch (ModelException e) {
 			logger.error("Failed to list contacts", e);
 			request.setAttribute("error-message", e.getMessage());
 			return new ErrorResult(request);
 		}
 
-		return new ActionResult("/", request);
+		return new ActionResult("/contacts-list.jsp", request);
 	}
 
 	private int getRequestedPageNumber(HttpServletRequest request)
@@ -69,7 +72,9 @@ public class ContactController {
 
 	private int getNumberOfPages() throws ModelException {
 		int numberOfContacts = contactManager.getCount();
+		logger.debug("total contacts: " + numberOfContacts);
 		int numberOfPages = numberOfContacts / CONTACTS_PER_PAGE;
+		logger.debug("total pages: " + numberOfPages);
 		return numberOfContacts % CONTACTS_PER_PAGE == 0 ? numberOfPages
 				: numberOfPages + 1;
 	}

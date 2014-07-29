@@ -40,5 +40,6 @@ class DaoFactoryProvider {
 
 	static DaoFactory getFactory() {
 		return daoFactory;
+//		return new MySqlDaoFactory();
 	}
 }

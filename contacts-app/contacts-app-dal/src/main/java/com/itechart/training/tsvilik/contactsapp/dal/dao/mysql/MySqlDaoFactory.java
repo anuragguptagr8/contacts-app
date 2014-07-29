@@ -1,6 +1,6 @@
 package com.itechart.training.tsvilik.contactsapp.dal.dao.mysql;
 
-import javax.sql.DataSource;
+import org.apache.tomcat.jdbc.pool.DataSource;
 
 import com.itechart.training.tsvilik.contactsapp.dal.dao.AttachmentDao;
 import com.itechart.training.tsvilik.contactsapp.dal.dao.ContactDao;
@@ -17,6 +17,18 @@ public class MySqlDaoFactory implements DaoFactory {
 	private PhoneNumberDao phoneNumberDao;
 	private AttachmentDao attachmentDao;
 
+	public MySqlDaoFactory() {
+		dataSource = new DataSource();
+		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+		dataSource.setUrl("jdbc:mysql://localhost:3306/contacts-app-dev");
+		dataSource.setUsername("root");
+		dataSource.setPassword("root");
+		dataSource.setInitialSize(5);
+		dataSource.setMaxActive(10);
+		dataSource.setMaxIdle(5);
+		dataSource.setMinIdle(2);
+	}
+	
 	@Override
 	public ContactDao getContactDao() {
 		return contactDao == null ? new MySqlContactDao(dataSource)

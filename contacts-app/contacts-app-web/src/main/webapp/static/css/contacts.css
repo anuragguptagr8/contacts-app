@@ -36,3 +36,12 @@
 .control-col {
     width: 0;
 }
+
+.pagination a{
+	color: #000;
+    text-decoration: none;
+}
+
+.pagination a:hover {
+    text-decoration: underline;
+}
