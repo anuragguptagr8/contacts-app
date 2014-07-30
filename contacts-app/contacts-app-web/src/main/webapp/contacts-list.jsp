@@ -43,27 +43,29 @@
 	            </tbody>
 	        </table>
         </form>
-        <div class="pagination">
-            <c:if test="${page > 1}">
-	            <a href="<c:url value="/contacts?page=${page-1}" />">Previous</a>
-	            &nbsp;
-            </c:if>
-            <c:forEach begin="1" end="${totalpages}" varStatus="loop">
-                <c:choose>
-                    <c:when test="${page == loop.index}">
-                        <strong>${loop.index}</strong>
-                    </c:when>
-                    <c:otherwise>
-                        <a
-							href="<c:url value="/contacts?page=${loop.index}"/>">${loop.index}</a>
-                    </c:otherwise>
-			    </c:choose>
-			    &nbsp;
-			</c:forEach>
-            <c:if test="${page < totalpages}">
-                <a href="<c:url value="/contacts?page=${page+1}" />">Next</a>
-            </c:if>
-        </div>
+        <c:if test="${totalpages > 1}">
+	        <div class="pagination">
+	            <c:if test="${page > 1}">
+		            <a href="<c:url value="/contacts?page=${page-1}" />">Previous</a>
+		            &nbsp;
+	            </c:if>
+	            <c:forEach begin="1" end="${totalpages}" varStatus="loop">
+	                <c:choose>
+	                    <c:when test="${page == loop.index}">
+	                        <strong>${loop.index}</strong>
+	                    </c:when>
+	                    <c:otherwise>
+	                        <a
+								href="<c:url value="/contacts?page=${loop.index}"/>">${loop.index}</a>
+	                    </c:otherwise>
+				    </c:choose>
+				    &nbsp;
+				</c:forEach>
+	            <c:if test="${page < totalpages}">
+	                <a href="<c:url value="/contacts?page=${page+1}" />">Next</a>
+	            </c:if>
+	        </div>
+        </c:if>
 	</jsp:attribute>
 	<jsp:attribute name="sidebar">
         <a class="button" href="#">
