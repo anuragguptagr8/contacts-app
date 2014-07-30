@@ -1,5 +1,6 @@
 package com.itechart.training.tsvilik.contactsapp.web.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,7 +26,50 @@ public class ContactController {
 	}
 
 	public ActionResult get(HttpServletRequest request) {
+		request.setAttribute("action", "get");
 		return new ActionResult("/contact.jsp", request);
+	}
+
+	public ActionResult add(HttpServletRequest request) {
+		request.setAttribute("action", "add");
+		return new ActionResult("/contact.jsp", request);
+	}
+
+	public ActionResult remove(HttpServletRequest request) {
+		List<Integer> idsToRemove = getSelectedContactsIds(request);
+		logger.debug("Got " + idsToRemove.size() + " ids to remove.");
+		ActionResult actionResult = new ActionResult("/contacts",
+				request);
+		actionResult.setRedirectNeeded(true);
+		for (Integer contactId : idsToRemove) {
+			try {
+				contactManager.remove(contactId);
+				logger.debug("Removed contact " + contactId);
+			} catch (ModelException e) {
+				logger.error("Failed to remove contact with id " + contactId, e);
+				actionResult.setMessage("Failed to remove contact with id "
+						+ contactId
+						+ ". The removal procedure has been stopped.");
+				return actionResult;
+			}
+		}
+		actionResult
+				.setMessage("Selected contacts has been successfully removed.");
+		return actionResult;
+	}
+
+	private List<Integer> getSelectedContactsIds(HttpServletRequest request) {
+		String[] selectedIdStrings = request
+				.getParameterValues("selected_contacts");
+		List<Integer> idList = new ArrayList<Integer>();
+		for (int i = 0; i < selectedIdStrings.length; i++) {
+			try {
+				idList.add(Integer.parseInt(selectedIdStrings[i]));
+			} catch (NumberFormatException e) {
+				continue;
+			}
+		}
+		return idList;
 	}
 
 	public ActionResult list(HttpServletRequest request) {
@@ -34,11 +78,9 @@ public class ContactController {
 			pageNumber = getRequestedPageNumber(request);
 			List<Contact> requestedContacts = contactManager.getBatch(
 					CONTACTS_PER_PAGE, pageNumber - 1);
-			logger.debug("Got " + requestedContacts.size() + " contacts");
 			request.setAttribute("contacts", requestedContacts);
 			request.setAttribute("page", pageNumber);
 			request.setAttribute("totalpages", getNumberOfPages());
-			logger.debug("total-pages: " + request.getAttribute("totalpages"));
 		} catch (ModelException e) {
 			logger.error("Failed to list contacts", e);
 			request.setAttribute("error-message", e.getMessage());
@@ -72,9 +114,7 @@ public class ContactController {
 
 	private int getNumberOfPages() throws ModelException {
 		int numberOfContacts = contactManager.getCount();
-		logger.debug("total contacts: " + numberOfContacts);
 		int numberOfPages = numberOfContacts / CONTACTS_PER_PAGE;
-		logger.debug("total pages: " + numberOfPages);
 		return numberOfContacts % CONTACTS_PER_PAGE == 0 ? numberOfPages
 				: numberOfPages + 1;
 	}

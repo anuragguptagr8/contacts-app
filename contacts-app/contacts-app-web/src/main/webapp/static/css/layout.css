@@ -116,6 +116,10 @@
     padding: 1em;
 }
 
+.action_message {
+	font-style: italic;
+}
+
 body {
     font-family: "Proxima Nova Regular","Segoe UI",Roboto,"Droid Sans","Helvetica Neue",Arial,sans-serif;
     font-style: normal;

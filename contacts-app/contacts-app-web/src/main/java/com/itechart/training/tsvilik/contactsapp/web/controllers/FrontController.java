@@ -20,8 +20,14 @@ public class FrontController extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		ActionResult result = ActionDispatcher.dispatch(request);
 		// logger.debug("Got result: " + result.getReturnPage());
-		getServletContext().getRequestDispatcher(result.getReturnPage())
-				.forward(result.getRequest(), response);
+
+		if (result.isRedirectNeeded()) {
+			response.sendRedirect(request.getContextPath() + result.getReturnPage());
+		} else {
+			getServletContext().getRequestDispatcher(result.getReturnPage())
+					.forward(result.getRequest(), response);
+			request.getSession().removeAttribute("action_message");
+		}
 	}
 
 	@Override
