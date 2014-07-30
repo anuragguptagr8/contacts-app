@@ -47,7 +47,7 @@ public class MySqlPhotoDaoTest {
 		assertTrue(photo.getFileName().equals(photo2.getFileName()));
 		
 		try {
-			dao.delete(photo);
+			dao.delete(photo.getId());
 			assertNull(dao.getByKey(photo.getId()));
 		} catch (DataAccessException e) {
 			fail(e.getMessage());

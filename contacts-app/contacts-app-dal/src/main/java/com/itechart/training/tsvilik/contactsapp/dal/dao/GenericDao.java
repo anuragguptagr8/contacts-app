@@ -11,7 +11,7 @@ public interface GenericDao<T, K> {
 
 	public void update(T object) throws DataAccessException;
 
-	public void delete(T object) throws DataAccessException;
+	public void delete(K key) throws DataAccessException;
 
 	public List<T> getAll() throws DataAccessException;
 	 

@@ -57,7 +57,7 @@ public class MySqlPhoneNumberDaoTest {
 		assertTrue(number.getComment().equals(number2.getComment()));
 		
 		try {
-			dao.delete(number);
+			dao.delete(number.getId());
 			assertNull(dao.getByKey(number.getId()));
 		} catch (DataAccessException e) {
 			fail(e.getMessage());

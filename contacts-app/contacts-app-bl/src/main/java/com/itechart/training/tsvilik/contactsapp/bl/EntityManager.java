@@ -11,7 +11,7 @@ public interface EntityManager<T extends Identifiable<K>, K> {
 	
 	T save(T entity) throws ModelException;
 
-	void remove(T entity) throws ModelException;
+	void remove(K key) throws ModelException;
 
 	void update(T entity) throws ModelException;
 	

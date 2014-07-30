@@ -47,14 +47,13 @@ public abstract class AbstractEntityManager<T extends Identifiable<K>, K>
 	}
 
 	@Override
-	public void remove(T entity) throws ModelException {
+	public void remove(K key) throws ModelException {
 		try {
-			getDao().delete(entity);
+			getDao().delete(key);
 		} catch (DataAccessException e) {
-			getLogger().error(
-					"Failed to remove the entity, id: " + entity.getId(), e);
-			throw new ModelException("Failed to remove the entity, id: "
-					+ entity.getId(), e);
+			getLogger().error("Failed to remove the entity, id: " + key, e);
+			throw new ModelException("Failed to remove the entity, id: " + key,
+					e);
 		}
 	}
 

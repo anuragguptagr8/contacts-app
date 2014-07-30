@@ -38,7 +38,11 @@ public abstract class BaseDbDao<T extends Identifiable<K>, K> implements
 		this.dataSource = dataSource;
 	}
 
+	@Override
 	public T getByKey(K key) throws DataAccessException {
+		if (key == null) {
+			return null;
+		}
 		List<T> list;
 		String sql = getSelectQuery();
 		sql += " WHERE id = ?";
@@ -60,6 +64,7 @@ public abstract class BaseDbDao<T extends Identifiable<K>, K> implements
 		return list.iterator().next();
 	}
 
+	@Override
 	public List<T> getAll() throws DataAccessException {
 		List<T> list;
 		String sql = getSelectQuery();
@@ -74,7 +79,11 @@ public abstract class BaseDbDao<T extends Identifiable<K>, K> implements
 		return list;
 	}
 
+	@Override
 	public T insert(T object) throws DataAccessException {
+		if (object == null) {
+			return null;
+		}
 		if (object.getId() != null) {
 			throw new DataAccessException("Object is already persist.");
 		}
@@ -106,7 +115,11 @@ public abstract class BaseDbDao<T extends Identifiable<K>, K> implements
 		return persistInstance;
 	}
 
+	@Override
 	public void update(T object) throws DataAccessException {
+		if (object == null) {
+			return;
+		}
 		String sql = getUpdateQuery();
 		try (Connection connection = dataSource.getConnection()) {
 			PreparedStatement statement = connection.prepareStatement(sql);
@@ -122,11 +135,15 @@ public abstract class BaseDbDao<T extends Identifiable<K>, K> implements
 		}
 	}
 
-	public void delete(T object) throws DataAccessException {
+	@Override
+	public void delete(K key) throws DataAccessException {
+		if (key == null) {
+			return;
+		}
 		String sql = getDeleteQuery();
 		try (Connection connection = dataSource.getConnection()) {
 			PreparedStatement statement = connection.prepareStatement(sql);
-			statement.setObject(1, object.getId());
+			statement.setObject(1, key);
 			int count = statement.executeUpdate();
 			if (count != 1) {
 				throw new DataAccessException(
@@ -138,6 +155,7 @@ public abstract class BaseDbDao<T extends Identifiable<K>, K> implements
 		}
 	}
 
+	@Override
 	public int getCount() throws DataAccessException {
 		String sql = getCountQuery();
 		int count = 0;
