@@ -13,7 +13,7 @@ public class MySqlRelationshipStatusDao extends BaseIdDao<Integer> implements Re
 
 	@Override
 	protected String getTableName() {
-		return "`contacts-app-dev`.`ralationship_statuses`";
+		return "`contacts-app-dev`.`relationship_statuses`";
 	}
 	
 }

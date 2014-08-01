@@ -15,9 +15,9 @@ import com.itechart.training.tsvilik.contactsapp.web.BlManager;
 
 public class ContactHelper {
 	private static Logger logger = Logger.getLogger(ContactHelper.class);
-	
+
 	public static final int CONTACTS_PER_PAGE;
-	
+
 	static {
 		String filename = "web.properties";
 		ClassLoader classLoader = ContactHelper.class.getClassLoader();
@@ -35,7 +35,7 @@ public class ContactHelper {
 			CONTACTS_PER_PAGE = contactsPerPage == null ? 10 : contactsPerPage;
 		}
 	}
-	
+
 	public static List<Integer> getSelectedContactsIds(
 			HttpServletRequest request) {
 		String[] selectedIdStrings = request
@@ -50,7 +50,7 @@ public class ContactHelper {
 		}
 		return idList;
 	}
-	
+
 	public static int getRequestedPageNumber(HttpServletRequest request)
 			throws ModelException {
 		String pageNumberString = request.getParameter("page");
@@ -72,11 +72,22 @@ public class ContactHelper {
 		}
 		return pageNumber;
 	}
-	
+
 	public static int getNumberOfPages() throws ModelException {
 		int numberOfContacts = BlManager.getContactManager().getCount();
 		int numberOfPages = numberOfContacts / CONTACTS_PER_PAGE;
 		return numberOfContacts % CONTACTS_PER_PAGE == 0 ? numberOfPages
 				: numberOfPages + 1;
+	}
+
+	public static void prepareContactPage(HttpServletRequest request)
+			throws ModelException {
+		List<String> countries = BlManager.getCountryManager().getAllIds();
+		request.setAttribute("countries", countries);
+		List<Integer> relationshipStatuses = BlManager
+				.getRelationshipStatusManager().getAllIds();
+		request.setAttribute("relationships", relationshipStatuses);
+		List<Integer> phoneTypes = BlManager.getPhoneTypeManager().getAllIds();
+		request.setAttribute("phone_types", phoneTypes);
 	}
 }

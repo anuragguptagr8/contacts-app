@@ -1,11 +1,9 @@
 package com.itechart.training.tsvilik.contactsapp.web.controllers;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
 
 import com.itechart.training.tsvilik.contactsapp.bl.ModelException;
@@ -26,12 +24,20 @@ public class ContactController {
 					requestedContactId);
 			request.setAttribute("contact", requestedContact);
 		} catch (NumberFormatException | ModelException e) {
-			return getRetrievingContactFailed(request);
+			return getRetrievingContactFailedResult(request);
 		}
-		return new ActionResult("/contact.jsp", request);
+		ActionResult result = new ActionResult("/contact.jsp", request);
+		try {
+			ContactHelper.prepareContactPage(request);
+		} catch (ModelException e) {
+			logger.error("Failed to get necessary info for contact page.");
+			result.setMessage("Failed to get necessary info for contact page.");
+		}
+		return result;
 	}
 
-	private ActionResult getRetrievingContactFailed(HttpServletRequest request) {
+	private ActionResult getRetrievingContactFailedResult(
+			HttpServletRequest request) {
 		ActionResult result = new ActionResult("/contacts", request);
 		result.setRedirectNeeded(true);
 		result.setMessage("The requested contact hasn't been found.");
@@ -39,13 +45,20 @@ public class ContactController {
 	}
 
 	public ActionResult add(HttpServletRequest request) {
+		ActionResult result = new ActionResult("/contact.jsp", request);
+		try {
+			ContactHelper.prepareContactPage(request);
+		} catch (ModelException e) {
+			logger.error("Failed to get necessary info for contact page.");
+			result.setMessage("Failed to get necessary info for contact page.");
+		}
+		return result;
+	}
+
+	public ActionResult save(HttpServletRequest request) {
 		Contact contact = new Contact();
 
-		try {
-			BeanUtils.populate(contact, request.getParameterMap());
-		} catch (IllegalAccessException | InvocationTargetException e) {
-			logger.debug("populate error", e);
-		}
+		//TODO
 
 		request.setAttribute("contact", contact);
 

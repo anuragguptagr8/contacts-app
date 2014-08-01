@@ -1,10 +1,10 @@
 package com.itechart.training.tsvilik.contactsapp.web;
 
-import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 
 public class NotFoundResult extends ActionResult {
 	
-	public NotFoundResult(ServletRequest request) {
+	public NotFoundResult(HttpServletRequest request) {
 		super("/notfound.jsp", request);
 	}
 }

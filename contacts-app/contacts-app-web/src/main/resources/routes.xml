@@ -15,6 +15,11 @@
 			<action>add</action>
 		</route>
 		<route>
+            <path>/contact/save</path>
+            <controller>Contact</controller>
+            <action>save</action>
+        </route>
+		<route>
             <path>/contact/remove</path>
             <controller>Contact</controller>
             <action>remove</action>

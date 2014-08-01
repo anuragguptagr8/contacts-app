@@ -96,7 +96,8 @@ public class MySqlContactDao extends BaseDbDao<Contact, Integer> implements
 				contact.setLastName(rs.getString("last_name"));
 				contact.setMiddleName(rs.getString("middle_name"));
 				contact.setDateOfBirth(rs.getDate("date_of_birth"));
-				contact.setIsMale(rs.getBoolean("is_male"));
+				contact.setIsMale(rs.getObject("is_male") == null ? null : rs
+						.getBoolean("is_male"));
 				contact.setCitizenship(rs.getString("citizenship"));
 				contact.setRelationshipStatusId(rs
 						.getInt("relationship_status_id"));

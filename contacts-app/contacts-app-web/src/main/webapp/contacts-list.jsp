@@ -33,11 +33,11 @@
 						<tr>
 						    <td><input type=checkbox name="selected_contacts"
 								value="${contact.id}" /></td>
-							<td><a href="#">${contact.lastName} ${contact.firstName}</a></td>
+							<td><a href="<c:url value="/contact?id=${contact.id}" />">${contact.lastName} ${contact.firstName}</a></td>
 							<td>${contact.dateOfBirth}</td>
 							<td>${contact.city}, ${contact.street}</td>
 							<td>${contact.company}</td>
-	                        <td><a href="#" class="fa fa-pencil fa-lg"></a></td>
+	                        <td><a href="<c:url value="/contact?id=${contact.id}" />" class="fa fa-pencil fa-lg"></a></td>
 						</tr>
 					</c:forEach>
 	            </tbody>
@@ -68,7 +68,7 @@
         </c:if>
 	</jsp:attribute>
 	<jsp:attribute name="sidebar">
-        <a class="button" href="#">
+        <a class="button" href="<c:url value="/contact/add" />">
             <span class="fa fa-plus fa-fw"></span> 
             Create new contact
         </a>

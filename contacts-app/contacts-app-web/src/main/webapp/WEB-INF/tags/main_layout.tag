@@ -36,7 +36,7 @@
 <body>
     <div class="wrapper">
         <div class="header">
-            <h1><a href="#">Contacts App</a></h1>
+            <h1><a href="<c:url value="/" />">Contacts App</a></h1>
             <div class="header-sidebar">
                 <a href="#"><span class="fa fa-search"></span> Search</a>
             </div>

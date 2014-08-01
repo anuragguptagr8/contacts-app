@@ -1,10 +1,10 @@
 package com.itechart.training.tsvilik.contactsapp.web;
 
-import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 
 public class ErrorResult extends ActionResult {
 	
-	public ErrorResult(ServletRequest request) {
+	public ErrorResult(HttpServletRequest request) {
 		super("/error.jsp", request);
 	}
 }
