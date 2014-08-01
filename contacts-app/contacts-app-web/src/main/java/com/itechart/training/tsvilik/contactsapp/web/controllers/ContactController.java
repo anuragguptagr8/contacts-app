@@ -1,49 +1,66 @@
 package com.itechart.training.tsvilik.contactsapp.web.controllers;
 
-import java.util.ArrayList;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
 
-import com.itechart.training.tsvilik.contactsapp.bl.ContactManager;
 import com.itechart.training.tsvilik.contactsapp.bl.ModelException;
-import com.itechart.training.tsvilik.contactsapp.bl.simple.SimpleContactManager;
 import com.itechart.training.tsvilik.contactsapp.entities.Contact;
 import com.itechart.training.tsvilik.contactsapp.web.ActionResult;
+import com.itechart.training.tsvilik.contactsapp.web.BlManager;
 import com.itechart.training.tsvilik.contactsapp.web.ErrorResult;
+import com.itechart.training.tsvilik.contactsapp.web.helpers.ContactHelper;
 
 public class ContactController {
 	private static Logger logger = Logger.getLogger(ContactController.class);
 
-	private static final int CONTACTS_PER_PAGE = 10;
-
-	private ContactManager contactManager;
-
-	public ContactController() {
-		contactManager = new SimpleContactManager();
+	public ActionResult get(HttpServletRequest request) {
+		int requestedContactId;
+		try {
+			requestedContactId = Integer.parseInt(request.getParameter("id"));
+			Contact requestedContact = BlManager.getContactManager().getByKey(
+					requestedContactId);
+			request.setAttribute("contact", requestedContact);
+		} catch (NumberFormatException | ModelException e) {
+			return getRetrievingContactFailed(request);
+		}
+		return new ActionResult("/contact.jsp", request);
 	}
 
-	public ActionResult get(HttpServletRequest request) {
-		request.setAttribute("action", "get");
-		return new ActionResult("/contact.jsp", request);
+	private ActionResult getRetrievingContactFailed(HttpServletRequest request) {
+		ActionResult result = new ActionResult("/contacts", request);
+		result.setRedirectNeeded(true);
+		result.setMessage("The requested contact hasn't been found.");
+		return result;
 	}
 
 	public ActionResult add(HttpServletRequest request) {
-		request.setAttribute("action", "add");
-		return new ActionResult("/contact.jsp", request);
+		Contact contact = new Contact();
+
+		try {
+			BeanUtils.populate(contact, request.getParameterMap());
+		} catch (IllegalAccessException | InvocationTargetException e) {
+			logger.debug("populate error", e);
+		}
+
+		request.setAttribute("contact", contact);
+
+		return new ActionResult("/error.jsp", request);
 	}
 
 	public ActionResult remove(HttpServletRequest request) {
-		List<Integer> idsToRemove = getSelectedContactsIds(request);
+		List<Integer> idsToRemove = ContactHelper
+				.getSelectedContactsIds(request);
 		logger.debug("Got " + idsToRemove.size() + " ids to remove.");
-		ActionResult actionResult = new ActionResult("/contacts",
-				request);
+		ActionResult actionResult = new ActionResult("/contacts", request);
 		actionResult.setRedirectNeeded(true);
 		for (Integer contactId : idsToRemove) {
 			try {
-				contactManager.remove(contactId);
+				BlManager.getContactManager().remove(contactId);
 				logger.debug("Removed contact " + contactId);
 			} catch (ModelException e) {
 				logger.error("Failed to remove contact with id " + contactId, e);
@@ -58,29 +75,15 @@ public class ContactController {
 		return actionResult;
 	}
 
-	private List<Integer> getSelectedContactsIds(HttpServletRequest request) {
-		String[] selectedIdStrings = request
-				.getParameterValues("selected_contacts");
-		List<Integer> idList = new ArrayList<Integer>();
-		for (int i = 0; i < selectedIdStrings.length; i++) {
-			try {
-				idList.add(Integer.parseInt(selectedIdStrings[i]));
-			} catch (NumberFormatException e) {
-				continue;
-			}
-		}
-		return idList;
-	}
-
 	public ActionResult list(HttpServletRequest request) {
 		int pageNumber;
 		try {
-			pageNumber = getRequestedPageNumber(request);
-			List<Contact> requestedContacts = contactManager.getBatch(
-					CONTACTS_PER_PAGE, pageNumber - 1);
+			pageNumber = ContactHelper.getRequestedPageNumber(request);
+			List<Contact> requestedContacts = BlManager.getContactManager()
+					.getBatch(ContactHelper.CONTACTS_PER_PAGE, pageNumber - 1);
 			request.setAttribute("contacts", requestedContacts);
 			request.setAttribute("page", pageNumber);
-			request.setAttribute("totalpages", getNumberOfPages());
+			request.setAttribute("totalpages", ContactHelper.getNumberOfPages());
 		} catch (ModelException e) {
 			logger.error("Failed to list contacts", e);
 			request.setAttribute("error-message", e.getMessage());
@@ -90,32 +93,4 @@ public class ContactController {
 		return new ActionResult("/contacts-list.jsp", request);
 	}
 
-	private int getRequestedPageNumber(HttpServletRequest request)
-			throws ModelException {
-		String pageNumberString = request.getParameter("page");
-		int pageNumber = 1;
-		if (pageNumberString == null) {
-			return pageNumber;
-		}
-		try {
-			pageNumber = Integer.parseInt(pageNumberString);
-		} catch (NumberFormatException e) {
-			return pageNumber;
-		}
-		if (pageNumber < 1) {
-			pageNumber = 1;
-		}
-		int numberOfPages = getNumberOfPages();
-		if (pageNumber > numberOfPages) {
-			pageNumber = numberOfPages;
-		}
-		return pageNumber;
-	}
-
-	private int getNumberOfPages() throws ModelException {
-		int numberOfContacts = contactManager.getCount();
-		int numberOfPages = numberOfContacts / CONTACTS_PER_PAGE;
-		return numberOfContacts % CONTACTS_PER_PAGE == 0 ? numberOfPages
-				: numberOfPages + 1;
-	}
 }
