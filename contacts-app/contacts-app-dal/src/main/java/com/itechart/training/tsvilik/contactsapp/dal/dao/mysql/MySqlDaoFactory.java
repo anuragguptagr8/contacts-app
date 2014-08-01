@@ -4,9 +4,12 @@ import org.apache.tomcat.jdbc.pool.DataSource;
 
 import com.itechart.training.tsvilik.contactsapp.dal.dao.AttachmentDao;
 import com.itechart.training.tsvilik.contactsapp.dal.dao.ContactDao;
+import com.itechart.training.tsvilik.contactsapp.dal.dao.CountryDao;
 import com.itechart.training.tsvilik.contactsapp.dal.dao.DaoFactory;
 import com.itechart.training.tsvilik.contactsapp.dal.dao.PhoneNumberDao;
+import com.itechart.training.tsvilik.contactsapp.dal.dao.PhoneTypeDao;
 import com.itechart.training.tsvilik.contactsapp.dal.dao.PhotoDao;
+import com.itechart.training.tsvilik.contactsapp.dal.dao.RelationshipStatusDao;
 
 public class MySqlDaoFactory implements DaoFactory {
 
@@ -16,6 +19,9 @@ public class MySqlDaoFactory implements DaoFactory {
 	private PhotoDao photoDao;
 	private PhoneNumberDao phoneNumberDao;
 	private AttachmentDao attachmentDao;
+	private CountryDao countryDao;
+	private PhoneTypeDao phoneTypeDao;
+	private RelationshipStatusDao relationshipStatusDao;
 
 	public MySqlDaoFactory() {
 		dataSource = new DataSource();
@@ -52,4 +58,21 @@ public class MySqlDaoFactory implements DaoFactory {
 				: attachmentDao;
 	}
 
+	@Override
+	public CountryDao getCountryDao() {
+		return countryDao == null ? new MySqlCountryDao(dataSource)
+		: countryDao;
+	}
+	
+	@Override
+	public PhoneTypeDao getPhoneTypeDao() {
+		return phoneTypeDao == null ? new MySqlPhoneTypeDao(dataSource)
+		: phoneTypeDao;
+	}
+	
+	@Override
+	public RelationshipStatusDao getRelationshipStatusDao() {
+		return relationshipStatusDao == null ? new MySqlRelationshipStatusDao(dataSource)
+		: relationshipStatusDao;
+	}
 }

@@ -5,4 +5,7 @@ public interface DaoFactory {
 	PhotoDao getPhotoDao();
 	PhoneNumberDao getPhoneNumberDao();
 	AttachmentDao getAttachmentDao();
+	CountryDao getCountryDao();
+	PhoneTypeDao getPhoneTypeDao();
+	RelationshipStatusDao getRelationshipStatusDao();
 }
