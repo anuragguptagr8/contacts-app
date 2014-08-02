@@ -18,7 +18,7 @@ public class Contact implements Identifiable<Integer>{
 	private String city;
 	private String street;
 	private String postalCode;
-	private Integer pohotoId;
+	private Integer photoId;
 
 	public Integer getId() {
 		return id;
@@ -140,12 +140,12 @@ public class Contact implements Identifiable<Integer>{
 		this.postalCode = postalCode;
 	}
 
-	public Integer getPohotoId() {
-		return pohotoId;
+	public Integer getPhotoId() {
+		return photoId;
 	}
 
-	public void setPohotoId(Integer pohotoId) {
-		this.pohotoId = pohotoId;
+	public void setPhotoId(Integer pohotoId) {
+		this.photoId = pohotoId;
 	}
 
 }

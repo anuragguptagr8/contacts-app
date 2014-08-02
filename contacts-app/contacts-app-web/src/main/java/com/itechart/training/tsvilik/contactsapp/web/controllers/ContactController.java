@@ -11,6 +11,9 @@ import com.itechart.training.tsvilik.contactsapp.entities.Contact;
 import com.itechart.training.tsvilik.contactsapp.web.ActionResult;
 import com.itechart.training.tsvilik.contactsapp.web.BlManager;
 import com.itechart.training.tsvilik.contactsapp.web.ErrorResult;
+import com.itechart.training.tsvilik.contactsapp.web.fillers.ContactFiller;
+import com.itechart.training.tsvilik.contactsapp.web.fillers.GenericBeanFiller;
+import com.itechart.training.tsvilik.contactsapp.web.fillers.PropertyFormatException;
 import com.itechart.training.tsvilik.contactsapp.web.helpers.ContactHelper;
 
 public class ContactController {
@@ -56,13 +59,29 @@ public class ContactController {
 	}
 
 	public ActionResult save(HttpServletRequest request) {
+		ActionResult result = new ActionResult("/contact/add", request);
+		result.setRedirectNeeded(true);
 		Contact contact = new Contact();
-
-		//TODO
-
-		request.setAttribute("contact", contact);
-
-		return new ActionResult("/error.jsp", request);
+		GenericBeanFiller<Contact> filler = new ContactFiller();
+		try {
+			filler.fill(contact, request.getParameterMap());
+			if (contact.getId() == null) {
+				contact = BlManager.getContactManager().save(contact);
+			} else {
+				BlManager.getContactManager().update(contact);
+			}
+			result.setReturnPage("/contact?id=" + contact.getId());
+			result.setMessage("The contact has been saved successfully.");
+		} catch (PropertyFormatException e) {
+			logger.error("Failed to parse a property.", e);
+			result.setMessage("Field format error: " + e.getMessage());
+		} catch (ModelException e) {
+			logger.error("Failed to save contact.", e);
+			result.setMessage("Failed to save contact.");
+		} finally {
+			request.getSession().setAttribute("contact", contact);
+		}
+		return result;
 	}
 
 	public ActionResult remove(HttpServletRequest request) {

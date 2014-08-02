@@ -21,7 +21,7 @@ public class ContactFiller implements GenericBeanFiller<Contact> {
 		contact.setId(convertToInt(fields.get("id")));
 		contact.setRelationshipStatusId(convertToInt(fields
 				.get("relationshipStatusId")));
-		contact.setPohotoId(convertToInt(fields.get("pohotoId")));
+		contact.setPhotoId(convertToInt(fields.get("pohotoId")));
 		
 		contact.setFirstName(fields.get("firstName"));
 		contact.setLastName(fields.get("lastName"));
@@ -34,7 +34,7 @@ public class ContactFiller implements GenericBeanFiller<Contact> {
 					e);
 		}
 
-		contact.setIsMale(convertGenderToBool(fields.get("isMale")));
+		contact.setIsMale(convertGenderToBool(fields.get("gender")));
 
 		contact.setCitizenship(fields.get("citizenship"));
 		contact.setWebsite(fields.get("website"));
@@ -69,11 +69,17 @@ public class ContactFiller implements GenericBeanFiller<Contact> {
 	}
 
 	private Date convertToDate(String dateString) throws ParseException {
+		if (dateString == null) {
+			return null;
+		} 
 		DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
 		return df.parse(dateString.trim());
 	}
 
 	private Boolean convertGenderToBool(String gender) {
+		if (gender == null) {
+			return null;
+		}
 		gender = gender.trim();
 		if (gender.equalsIgnoreCase("male")) {
 			return true;

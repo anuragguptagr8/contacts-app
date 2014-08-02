@@ -1,5 +1,6 @@
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <t:main_layout>
     <jsp:attribute name="head_area">
@@ -16,6 +17,8 @@
         </div>
         <div class="contact-form">
 			<form name="contact_form" method="post" action="<c:url value="/contact/save"/>">
+			    <input type="hidden" name="id" value="${contact.id}"/> 
+			    <input type="hidden" name="photoId" value="${contact.photoId}"/>
 			    <div class="field">
 				    <div class="field-label">
 				        <label for="firstName">First Name * </label>
@@ -45,7 +48,7 @@
 				        <label for="dateOfBirth">Date of Birth</label>
 				    </div>
 				    <div class="field-input">
-				        <input type="text" name="dateOfBirth" id="dateOfBirth" value="${contact.dateOfBirth}" placeholder="DD.MM.YYYY">
+				        <input type="text" name="dateOfBirth" id="dateOfBirth" value="<fmt:formatDate pattern="dd.MM.yyyy" value="${contact.dateOfBirth}" />" placeholder="DD.MM.YYYY">
 				    </div>
 				</div>
 				<div class="field"> 
@@ -69,7 +72,7 @@
 				    </div>
 				    <div class="field-input">
 				        <select name="citizenship">
-				            <option>-- Choose a citizenship --</option>
+				            <option value="">-- Choose a citizenship --</option>
                             <c:forEach items="${countries}" var="countryId">
 			                    <option value="${countryId}" ${contact.citizenship == countryId ? 'selected' : ''} >
 			                             ${countryId}
@@ -84,7 +87,7 @@
 				    </div>
 				    <div class="field-input">
 				        <select name="relationshipStatusId">
-				            <option>-- Select a relationship status --</option>
+				            <option value="">-- Select a relationship status --</option>
 				            <c:forEach items="${relationships}" var="statusId">
                                 <option value="${statusId}" ${contact.relationshipStatusId == statusId ? 'selected' : ''} >
                                          ${statusId}
@@ -123,7 +126,7 @@
 				    </div>
 				    <div class="field-input">
 				        <select name="country">
-				            <option>-- Choose a country --</option>
+				            <option value="">-- Choose a country --</option>
 				            <c:forEach items="${countries}" var="countryId">
                                 <option value="${countryId}" ${contact.country == countryId ? 'selected' : ''} >
                                     ${countryId}

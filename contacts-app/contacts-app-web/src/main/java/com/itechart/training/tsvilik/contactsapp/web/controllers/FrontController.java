@@ -27,6 +27,7 @@ public class FrontController extends HttpServlet {
 			getServletContext().getRequestDispatcher(result.getReturnPage())
 					.forward(result.getRequest(), response);
 			request.getSession().removeAttribute("action_message");
+			request.getSession().removeAttribute("contact");
 		}
 	}
 

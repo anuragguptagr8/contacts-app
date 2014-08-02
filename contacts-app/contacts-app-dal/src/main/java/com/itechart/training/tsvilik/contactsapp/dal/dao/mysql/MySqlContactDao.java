@@ -108,7 +108,7 @@ public class MySqlContactDao extends BaseDbDao<Contact, Integer> implements
 				contact.setCity(rs.getString("city"));
 				contact.setStreet(rs.getString("street_address"));
 				contact.setPostalCode(rs.getString("zip"));
-				contact.setPohotoId(NullableHelper.getInt("photo_id", rs));
+				contact.setPhotoId(NullableHelper.getInt("photo_id", rs));
 				result.add(contact);
 			}
 		} catch (Exception e) {
@@ -136,7 +136,7 @@ public class MySqlContactDao extends BaseDbDao<Contact, Integer> implements
 			statement.setString(12, object.getCity());
 			statement.setString(13, object.getStreet());
 			statement.setString(14, object.getPostalCode());
-			NullableHelper.setInt(statement, 15, object.getPohotoId());
+			NullableHelper.setInt(statement, 15, object.getPhotoId());
 		} catch (SQLException e) {
 			throw new DataAccessException(e);
 		}
@@ -161,7 +161,7 @@ public class MySqlContactDao extends BaseDbDao<Contact, Integer> implements
 			statement.setString(12, object.getCity());
 			statement.setString(13, object.getStreet());
 			statement.setString(14, object.getPostalCode());
-			NullableHelper.setInt(statement, 15, object.getPohotoId());
+			NullableHelper.setInt(statement, 15, object.getPhotoId());
 			NullableHelper.setInt(statement, 16, object.getId());
 		} catch (SQLException e) {
 			throw new DataAccessException(e);
