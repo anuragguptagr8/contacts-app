@@ -12,6 +12,7 @@ import javax.sql.DataSource;
 import com.itechart.training.tsvilik.contactsapp.dal.DataAccessException;
 import com.itechart.training.tsvilik.contactsapp.dal.dao.BaseDbDao;
 import com.itechart.training.tsvilik.contactsapp.dal.dao.ContactDao;
+import com.itechart.training.tsvilik.contactsapp.dal.dao.NullableHelper;
 import com.itechart.training.tsvilik.contactsapp.entities.Contact;
 
 public class MySqlContactDao extends BaseDbDao<Contact, Integer> implements
@@ -91,16 +92,15 @@ public class MySqlContactDao extends BaseDbDao<Contact, Integer> implements
 		try {
 			while (rs.next()) {
 				Contact contact = new Contact();
-				contact.setId(rs.getInt("id"));
+				contact.setId(NullableHelper.getInt("id", rs));
 				contact.setFirstName(rs.getString("first_name"));
 				contact.setLastName(rs.getString("last_name"));
 				contact.setMiddleName(rs.getString("middle_name"));
 				contact.setDateOfBirth(rs.getDate("date_of_birth"));
-				contact.setIsMale(rs.getObject("is_male") == null ? null : rs
-						.getBoolean("is_male"));
+				contact.setIsMale(NullableHelper.getBool("is_male", rs));
 				contact.setCitizenship(rs.getString("citizenship"));
-				contact.setRelationshipStatusId(rs
-						.getInt("relationship_status_id"));
+				contact.setRelationshipStatusId(NullableHelper.getInt(
+						"relationship_status_id", rs));
 				contact.setWebsite(rs.getString("web_site"));
 				contact.setEmail(rs.getString("email"));
 				contact.setCompany(rs.getString("company"));
@@ -108,7 +108,7 @@ public class MySqlContactDao extends BaseDbDao<Contact, Integer> implements
 				contact.setCity(rs.getString("city"));
 				contact.setStreet(rs.getString("street_address"));
 				contact.setPostalCode(rs.getString("zip"));
-				contact.setPohotoId(rs.getInt("photo_id"));
+				contact.setPohotoId(NullableHelper.getInt("photo_id", rs));
 				result.add(contact);
 			}
 		} catch (Exception e) {
@@ -126,9 +126,9 @@ public class MySqlContactDao extends BaseDbDao<Contact, Integer> implements
 			statement.setString(2, object.getLastName());
 			statement.setString(3, object.getMiddleName());
 			statement.setDate(4, sqlDate);
-			statement.setBoolean(5, object.getIsMale());
+			NullableHelper.setBool(statement, 5, object.getIsMale());
 			statement.setString(6, object.getCitizenship());
-			statement.setInt(7, object.getRelationshipStatusId());
+			NullableHelper.setInt(statement, 7, object.getRelationshipStatusId());
 			statement.setString(8, object.getWebsite());
 			statement.setString(9, object.getEmail());
 			statement.setString(10, object.getCompany());
@@ -136,7 +136,7 @@ public class MySqlContactDao extends BaseDbDao<Contact, Integer> implements
 			statement.setString(12, object.getCity());
 			statement.setString(13, object.getStreet());
 			statement.setString(14, object.getPostalCode());
-			statement.setInt(15, object.getPohotoId());
+			NullableHelper.setInt(statement, 15, object.getPohotoId());
 		} catch (SQLException e) {
 			throw new DataAccessException(e);
 		}
@@ -151,9 +151,9 @@ public class MySqlContactDao extends BaseDbDao<Contact, Integer> implements
 			statement.setString(2, object.getLastName());
 			statement.setString(3, object.getMiddleName());
 			statement.setDate(4, sqlDate);
-			statement.setBoolean(5, object.getIsMale());
+			NullableHelper.setBool(statement, 5, object.getIsMale());
 			statement.setString(6, object.getCitizenship());
-			statement.setInt(7, object.getRelationshipStatusId());
+			NullableHelper.setInt(statement, 7, object.getRelationshipStatusId());
 			statement.setString(8, object.getWebsite());
 			statement.setString(9, object.getEmail());
 			statement.setString(10, object.getCompany());
@@ -161,8 +161,8 @@ public class MySqlContactDao extends BaseDbDao<Contact, Integer> implements
 			statement.setString(12, object.getCity());
 			statement.setString(13, object.getStreet());
 			statement.setString(14, object.getPostalCode());
-			statement.setInt(15, object.getPohotoId());
-			statement.setInt(16, object.getId());
+			NullableHelper.setInt(statement, 15, object.getPohotoId());
+			NullableHelper.setInt(statement, 16, object.getId());
 		} catch (SQLException e) {
 			throw new DataAccessException(e);
 		}
