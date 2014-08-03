@@ -6,10 +6,7 @@
     <jsp:attribute name="head_area">
         <title>Contacts</title>  
         <link type="text/css" rel="stylesheet" href="<c:url value="/static/css/profile.css" />"/>
-        <script type="text/javascript">
-        "use strict"
-        
-        </script>
+        <script type="text/javascript" src="<c:url value="/static/js/contact.js" />"></script>
     </jsp:attribute>
     <jsp:attribute name="content">
         <div class="avatar">
@@ -24,7 +21,10 @@
 				        <label for="firstName">First Name * </label>
 				    </div>
 				    <div class="field-input" >
-				        <input type="text" name="firstName" id="firstName" value="${contact.firstName}" required > 
+				        <input type="text" name="firstName" id="firstName" value="${contact.firstName}" required >
+				        <div class="field-message">
+				            The field shouldn't be empty.
+				        </div> 
 				    </div>
 				</div>
 				<div class="field">
@@ -33,6 +33,9 @@
 				    </div>
 				    <div class="field-input" >
 				        <input type="text" name="lastName" id="lastName" value="${contact.lastName}" required>
+				        <div class="field-message">
+                            The field shouldn't be empty.
+                        </div> 
 				    </div>  
 				</div>
 				<div class="field">
@@ -49,6 +52,9 @@
 				    </div>
 				    <div class="field-input">
 				        <input type="text" name="dateOfBirth" id="dateOfBirth" value="<fmt:formatDate pattern="dd.MM.yyyy" value="${contact.dateOfBirth}" />" placeholder="DD.MM.YYYY">
+				        <div class="field-message">
+                            The date should match the DD.MM.YYYY pattern like '22.04.1988'
+                        </div> 
 				    </div>
 				</div>
 				<div class="field"> 
@@ -110,6 +116,9 @@
 				    </div>
 				    <div class="field-input" >
 				        <input type="text" name="email" id="email" value="${contact.email}" placeholder="some@email.com">
+				        <div class="field-message">
+                            The email should look something like that 'some@email.com'
+                        </div> 
 				    </div>
 				</div>
 				<div class="field">
@@ -159,7 +168,9 @@
 				        <input type="text" name="postalCode" id="postalCode" value="${contact.postalCode}" >
 				    </div>  
 				</div>
-			    <button type="submit">submit</button>
+			    <div class="save-button">
+                    <a href="#" id="save_button" class="button small center-text">Save</a>
+                </div> 
 			</form>
 	        
         </div>  
