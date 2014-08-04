@@ -174,14 +174,17 @@
                     <a href="#" id="save_button" class="button small center-text">Save</a>
                 </div> 
                 
-                <div class="phone-data" name="phone2">
-                    <input type="hidden" name="phoneId" value="2" />
-                    <input type="hidden" name="countryCode" value="233" />
-                    <input type="hidden" name="operatorCode" value="22" />
-                    <input type="hidden" name="number" value="2553324" />
-                    <input type="hidden" name="phoneTypeId" value="2" />
-                    <input type="hidden" name="phoneComment" value="lalalla" />
-                </div>
+                <c:forEach items="${numbers}" var="number">
+	                <div class="phone-data" name="phone${number.id}">
+	                    <input type="hidden" name="phoneId" value="${number.id}" />
+						<input type="hidden" name="countryCode" value="${number.countryCode}" />
+						<input type="hidden" name="operatorCode" value="${number.operatorCode}" />
+						<input type="hidden" name="number" value="${number.number}" />
+						<input type="hidden" name="phoneTypeId" value="${number.typeId}" />
+						<input type="hidden" name="phoneComment" value="${number.comment}" />
+	                </div>
+                </c:forEach>
+                
 			</form>
 	        
         </div>  

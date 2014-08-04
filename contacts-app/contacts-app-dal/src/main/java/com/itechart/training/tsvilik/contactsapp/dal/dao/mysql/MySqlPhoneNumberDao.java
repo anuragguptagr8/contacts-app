@@ -1,5 +1,6 @@
 package com.itechart.training.tsvilik.contactsapp.dal.dao.mysql;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,6 +11,7 @@ import javax.sql.DataSource;
 
 import com.itechart.training.tsvilik.contactsapp.dal.DataAccessException;
 import com.itechart.training.tsvilik.contactsapp.dal.dao.BaseDbDao;
+import com.itechart.training.tsvilik.contactsapp.dal.dao.NullableHelper;
 import com.itechart.training.tsvilik.contactsapp.dal.dao.PhoneNumberDao;
 import com.itechart.training.tsvilik.contactsapp.entities.PhoneNumber;
 
@@ -58,13 +60,13 @@ public class MySqlPhoneNumberDao extends BaseDbDao<PhoneNumber, Integer>
 		try {
 			while (rs.next()) {
 				PhoneNumber phoneNumber = new PhoneNumber();
-				phoneNumber.setId(rs.getInt("id"));
-				phoneNumber.setCountryCode(rs.getInt("country_code"));
-				phoneNumber.setOperatorCode(rs.getInt("operator_code"));
-				phoneNumber.setNumber(rs.getInt("number"));
-				phoneNumber.setTypeId(rs.getInt("type_id"));
+				phoneNumber.setId(NullableHelper.getInt("id", rs));
+				phoneNumber.setCountryCode(NullableHelper.getInt("country_code", rs));
+				phoneNumber.setOperatorCode(NullableHelper.getInt("operator_code", rs));
+				phoneNumber.setNumber(NullableHelper.getInt("number", rs));
+				phoneNumber.setTypeId(NullableHelper.getInt("type_id", rs));
+				phoneNumber.setContactId(NullableHelper.getInt("contact_id", rs));
 				phoneNumber.setComment(rs.getString("comment"));
-				phoneNumber.setContactId(rs.getInt("contact_id"));
 				result.add(phoneNumber);
 			}
 		} catch (Exception e) {
@@ -77,12 +79,12 @@ public class MySqlPhoneNumberDao extends BaseDbDao<PhoneNumber, Integer>
 	protected void prepareStatementForInsert(PreparedStatement statement,
 			PhoneNumber object) throws DataAccessException {
 		try {
-			statement.setInt(1, object.getCountryCode());
-			statement.setInt(2, object.getOperatorCode());
-			statement.setInt(3, object.getNumber());
-			statement.setInt(4, object.getTypeId());
+			NullableHelper.setInt(statement, 1, object.getCountryCode());
+			NullableHelper.setInt(statement, 2, object.getOperatorCode());
+			NullableHelper.setInt(statement, 3, object.getNumber());
+			NullableHelper.setInt(statement, 4, object.getTypeId());
 			statement.setString(5, object.getComment());
-			statement.setInt(6, object.getContactId());
+			NullableHelper.setInt(statement, 6, object.getContactId());
 		} catch (SQLException e) {
 			throw new DataAccessException(e);
 		}
@@ -92,15 +94,31 @@ public class MySqlPhoneNumberDao extends BaseDbDao<PhoneNumber, Integer>
 	protected void prepareStatementForUpdate(PreparedStatement statement,
 			PhoneNumber object) throws DataAccessException {
 		try {
-			statement.setInt(1, object.getCountryCode());
-			statement.setInt(2, object.getOperatorCode());
-			statement.setInt(3, object.getNumber());
-			statement.setInt(4, object.getTypeId());
+			NullableHelper.setInt(statement, 1, object.getCountryCode());
+			NullableHelper.setInt(statement, 2, object.getOperatorCode());
+			NullableHelper.setInt(statement, 3, object.getNumber());
+			NullableHelper.setInt(statement, 4, object.getTypeId());
 			statement.setString(5, object.getComment());
-			statement.setInt(6, object.getContactId());
-			statement.setInt(7, object.getId());
+			NullableHelper.setInt(statement, 6, object.getContactId());
+			NullableHelper.setInt(statement, 7, object.getId());
 		} catch (SQLException e) {
 			throw new DataAccessException(e);
 		}
+	}
+
+	@Override
+	public List<PhoneNumber> getContactNumbers(int contactId) throws DataAccessException {
+		List<PhoneNumber> list;
+		String sql = getSelectQuery() + "WHERE `contact_id` = ?";
+		try (Connection connection = dataSource.getConnection()) {
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setInt(1, contactId);
+			ResultSet rs = statement.executeQuery();
+			list = parseResultSet(rs);
+			statement.close();
+		} catch (SQLException e) {
+			throw new DataAccessException(e);
+		}
+		return list;
 	}
 }
