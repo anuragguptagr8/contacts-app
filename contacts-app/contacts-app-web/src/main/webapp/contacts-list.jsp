@@ -24,7 +24,7 @@
 								value="${contact.id}" /></td>
 							<td><a href="<c:url value="/contact?id=${contact.id}" />">${contact.lastName} ${contact.firstName}</a></td>
 							<td>${contact.dateOfBirth}</td>
-							<td>${contact.city}, ${contact.street}</td>
+							<td>${contact.city}${contact.city != null && contact.street != null ? ", " : null}${contact.street}</td>
 							<td>${contact.company}</td>
 	                        <td><a href="<c:url value="/contact?id=${contact.id}" />" class="fa fa-pencil fa-lg"></a></td>
 						</tr>

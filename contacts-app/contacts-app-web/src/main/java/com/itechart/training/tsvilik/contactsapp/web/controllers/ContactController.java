@@ -1,6 +1,9 @@
 package com.itechart.training.tsvilik.contactsapp.web.controllers;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -8,11 +11,13 @@ import org.apache.log4j.Logger;
 
 import com.itechart.training.tsvilik.contactsapp.bl.ModelException;
 import com.itechart.training.tsvilik.contactsapp.entities.Contact;
+import com.itechart.training.tsvilik.contactsapp.entities.PhoneNumber;
 import com.itechart.training.tsvilik.contactsapp.web.ActionResult;
 import com.itechart.training.tsvilik.contactsapp.web.BlManager;
 import com.itechart.training.tsvilik.contactsapp.web.ErrorResult;
 import com.itechart.training.tsvilik.contactsapp.web.fillers.ContactFiller;
 import com.itechart.training.tsvilik.contactsapp.web.fillers.GenericBeanFiller;
+import com.itechart.training.tsvilik.contactsapp.web.fillers.PhoneListFiller;
 import com.itechart.training.tsvilik.contactsapp.web.fillers.PropertyFormatException;
 import com.itechart.training.tsvilik.contactsapp.web.helpers.ContactHelper;
 
@@ -30,6 +35,16 @@ public class ContactController {
 			return getRetrievingContactFailedResult(request);
 		}
 		ActionResult result = new ActionResult("/contact.jsp", request);
+
+		try {
+			List<PhoneNumber> contactNumbers = BlManager.getPhoneNumberManager()
+					.getContactNumbers(requestedContactId);
+			request.setAttribute("numbers", contactNumbers);
+		} catch (ModelException e1) {
+			logger.error("Failed to get contact's numbers.");
+			result.setMessage("Failed to get contact's numbers.");
+		}
+
 		try {
 			ContactHelper.prepareContactPage(request);
 		} catch (ModelException e) {
@@ -62,24 +77,31 @@ public class ContactController {
 		ActionResult result = new ActionResult("/contact/add", request);
 		result.setRedirectNeeded(true);
 		Contact contact = new Contact();
-		GenericBeanFiller<Contact> filler = new ContactFiller();
+		List<PhoneNumber> contactNumbers = new ArrayList<PhoneNumber>();
+		GenericBeanFiller<Contact> contactFiller = new ContactFiller();
+		GenericBeanFiller<List<PhoneNumber>> numberFiller = new PhoneListFiller();
 		try {
-			filler.fill(contact, request.getParameterMap());
+			contactFiller.fill(contact, request.getParameterMap());
 			if (contact.getId() == null) {
 				contact = BlManager.getContactManager().save(contact);
 			} else {
 				BlManager.getContactManager().update(contact);
 			}
+			Map<String, String[]> requestParams = new HashMap<String, String[]>(request.getParameterMap());
+			requestParams.put("id", new String[]{ contact.getId().toString() });
+			numberFiller.fill(contactNumbers, requestParams);
+			BlManager.getPhoneNumberManager().updateNumbers(contactNumbers);
 			result.setReturnPage("/contact?id=" + contact.getId());
 			result.setMessage("The contact has been saved successfully.");
 		} catch (PropertyFormatException e) {
 			logger.error("Failed to parse a property.", e);
 			result.setMessage("Field format error: " + e.getMessage());
 		} catch (ModelException e) {
-			logger.error("Failed to save contact.", e);
-			result.setMessage("Failed to save contact.");
+			logger.error("Failed to save contact info.", e);
+			result.setMessage("Failed to save contact info.");
 		} finally {
 			request.getSession().setAttribute("contact", contact);
+			request.getSession().setAttribute("numbers", contactNumbers);
 		}
 		return result;
 	}
