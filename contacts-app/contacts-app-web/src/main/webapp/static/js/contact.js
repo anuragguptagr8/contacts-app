@@ -1,6 +1,6 @@
 "use strict"
 
-var fieldRules = {
+var contactFieldRules = {
 	"firstName" : function(value) {
 		return !!value;
 	},
@@ -33,7 +33,7 @@ var getFieldMsg = function(fieldId) {
 	return document.getElementById(fieldId).parentElement
 			.getElementsByClassName("field-message").item(0);
 }
-var validateInputs = function() {
+var validateInputs = function(fieldRules) {
 	var result = true;
 	for (var fieldName in fieldRules) {
 		var fieldValue = getField(fieldName).value.trim();
@@ -44,7 +44,7 @@ var validateInputs = function() {
 	}
 	return result;
 }
-var hideMessages = function () {
+var hideMessages = function(fieldRules) {
 	for (var fieldName in fieldRules) {
 		getFieldMsg(fieldName).style.display = "none";
 	}
@@ -53,8 +53,8 @@ var hideMessages = function () {
 addLoadEvent(function() {
 	var saveButton = document.getElementById("save_button");
 	saveButton.addEventListener("click", function() {
-		hideMessages();
-		if (validateInputs()) {
+		hideMessages(contactFieldRules);
+		if (validateInputs(contactFieldRules)) {
 			document.forms["contact_form"].submit();
 		}
 	});

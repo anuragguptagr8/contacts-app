@@ -11,26 +11,7 @@
 	<link type="text/css" rel="stylesheet" href="<c:url value="/static/css/layout.css" />" />
 	<link type="text/css" rel="stylesheet" href="<c:url value="/static/css/contacts.css" />"/>
 	<link type="text/css" rel="stylesheet" href="<c:url value="/static/font-awesome-4.1.0/css/font-awesome.min.css" />"/>
-	<script type="text/javascript">
-    function addLoadEvent(func) { 
-	    var oldonload = window.onload; 
-		if (typeof window.onload != 'function') { 
-			  window.onload = func; 
-	    } else { 
-	        window.onload = function() { 
-	            if (oldonload) { 
-	                oldonload(); 
-	            } 
-	            func(); 
-	        } 
-		} 
-	} 
-	addLoadEvent(function() {
-		setTimeout(function() {
-			document.getElementById('action_message').innerHTML = "";
-		}, 7000);
-	});
-	</script>
+	<script type="text/javascript" src="<c:url value="/static/js/main.js" />"></script>
     <jsp:invoke fragment="head_area"/>
 </head>
 <body>

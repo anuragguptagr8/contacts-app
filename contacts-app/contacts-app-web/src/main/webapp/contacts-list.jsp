@@ -4,18 +4,7 @@
 <t:main_layout>
 	<jsp:attribute name="head_area">
         <title>Contacts</title>  
-        <script type="text/javascript">
-        "use strict"
-        addLoadEvent(function() {
-            var removeButton = document.getElementById("remove_btn");
-            removeButton.addEventListener("click", function() { 
-            	if (confirm('Are you sure you want to permanently remove all selected contacts?')) {
-            	    document.forms["contacts_form"].action += "contact/remove";
-            	    document.forms["contacts_form"].submit();
-            	}
-            });
-        });
-        </script>
+        <script type="text/javascript" src="<c:url value="/static/js/contact-list.js" />"></script>
 	</jsp:attribute>
 	<jsp:attribute name="content">
         <form id="contacts_form" method="post" action="<c:url value="/"/>">
