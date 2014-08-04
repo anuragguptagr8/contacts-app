@@ -1,5 +1,6 @@
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <t:main_layout>
 	<jsp:attribute name="head_area">
@@ -23,7 +24,7 @@
 						    <td><input type=checkbox name="selected_contacts"
 								value="${contact.id}" /></td>
 							<td><a href="<c:url value="/contact?id=${contact.id}" />">${contact.lastName} ${contact.firstName}</a></td>
-							<td>${contact.dateOfBirth}</td>
+							<td><fmt:formatDate pattern="dd.MM.yyyy" value="${contact.dateOfBirth}" /></td>
 							<td>${contact.city}${contact.city != null && contact.street != null ? ", " : null}${contact.street}</td>
 							<td>${contact.company}</td>
 	                        <td><a href="<c:url value="/contact?id=${contact.id}" />" class="fa fa-pencil fa-lg"></a></td>
