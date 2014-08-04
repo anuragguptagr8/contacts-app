@@ -6,7 +6,9 @@
     <jsp:attribute name="head_area">
         <title>Contacts</title>  
         <link type="text/css" rel="stylesheet" href="<c:url value="/static/css/profile.css" />"/>
+        <link type="text/css" rel="stylesheet" href="<c:url value="/static/css/phone.css" />"/>
         <script type="text/javascript" src="<c:url value="/static/js/contact.js" />"></script>
+        <script type="text/javascript" src="<c:url value="/static/js/phone.js" />"></script>
     </jsp:attribute>
     <jsp:attribute name="content">
         <div class="avatar">
@@ -171,6 +173,15 @@
 			    <div class="save-button">
                     <a href="#" id="save_button" class="button small center-text">Save</a>
                 </div> 
+                
+                <div class="phone-data" name="phone2">
+                    <input type="hidden" name="phoneId" value="2" />
+                    <input type="hidden" name="countryCode" value="233" />
+                    <input type="hidden" name="operatorCode" value="22" />
+                    <input type="hidden" name="number" value="2553324" />
+                    <input type="hidden" name="phoneTypeId" value="2" />
+                    <input type="hidden" name="phoneComment" value="lalalla" />
+                </div>
 			</form>
 	        
         </div>  
@@ -179,19 +190,15 @@
         <table class="button-container">
             <tr>
                 <td>
-                    <a href="#" class="button small center-text">
-                        <span class="fa fa-plus"></span> Add new No.
-                    </a>
+                    <a href="#" id="addPhoneBtn" class="button small center-text">Add new No.</a>
                 </td>
                 <td>
-                    <a href="#" class="button small center-text">
-                        <span class="fa fa-trash-o"></span> Remove selected
-                    </a>
+                    <a href="#" id="removePhoneBtn" class="button small center-text">Remove selected</a>
                 </td>
             </tr>
         </table>
 
-        <table class="contacts-table">
+        <table class="contacts-table" id="phones-table">
             <thead>
                 <th class="control-col"></th>
                 <th>Phone No.</th>
@@ -199,7 +206,7 @@
                 <th class="control-col"></th>
             </thead>
             <tbody>
-                <tr>
+              <%--   <tr>
                     <td><input type=checkbox /></td>
                     <td>
                         <div class="phone-no"><a href="#">+375295684111</a></div>
@@ -207,36 +214,46 @@
                     </td>
                     <td>Home</td>
                     <td><a href="#" class="fa fa-pencil"></a></td>
-                </tr>
-                <tr>
-                    <td><input type=checkbox /></td>
-                    <td>
-                        <div class="phone-no"><a href="#">+375295684111</a></div>
-                        <div class="phone-comments">Some comments here</div>
-                    </td>
-                    <td>Home</td>
-                    <td><a href="#" class="fa fa-pencil"></a></td>
-                </tr>
-                <tr>
-                    <td><input type=checkbox /></td>
-                    <td>
-                        <div class="phone-no"><a href="#">+375295684111</a></div>
-                        <div class="phone-comments">Some comments here</div>
-                    </td>
-                    <td>Home</td>
-                    <td><a href="#" class="fa fa-pencil"></a></td>
-                </tr>
-                <tr>
-                    <td><input type=checkbox /></td>
-                    <td>
-                        <div class="phone-no"><a href="#">+375295684111</a></div>
-                        <div class="phone-comments">Some comments here</div>
-                    </td>
-                    <td>Home</td>
-                    <td><a href="#" class="fa fa-pencil"></a></td>
-                </tr>
+                </tr> --%>
+                
             </tbody>
 
         </table>
+    </jsp:attribute>
+    
+    <jsp:attribute name="bottom_area">
+	    <div id="popup-wrapper">
+	        <div id="phone-popup">
+	            <form action="#" id="phone_form">
+	                <span class="fa fa-times" id="close"></span>
+	                <h2>Enter a phone number</h2><hr/>
+	                <div>
+	                    <input type="hidden" name="formPhoneId" id="formPhoneId" value="" />
+	                    <input size="5" type="text" name="countryCodeTxt" id="countryCodeTxt" placeholder="Country code" />                      
+	                    <input size="5" type="text" name="operatorCodeTxt" id="operatorCodeTxt" placeholder="Operator code" />
+	                    <input type="text" name="numberTxt" id="numberTxt" placeholder="number" />
+	                    <select name="phoneTypeSlct" id="phoneTypeSlct" >
+	                        <option value="1">Home</option>
+	                        <option value="2">Cellular</option>
+	                    </select>
+	                    <div class="field-message">
+	                        Only numbers are accepted. Country code can't be entered without an operator code. Max length is 9 digits.
+	                    </div>
+	                </div>
+	                <div>
+	                    <textarea name="commentsTxt" placeholder="Any comments here" id="commentsTxt"></textarea>
+	                    <div class="field-message">
+	                        Max length is 300 digits.
+	                    </div>
+	                </div>
+	                <table class="button-container">
+	                    <tr>
+	                        <td><a href="#" class="button small center-text" id="phoneOk">OK</a></td>
+	                        <td><a href="#" class="button small center-text" id="phoneCancel">Cancel</a></td>
+	                    </tr>
+	                </table>
+	            </form>
+	        </div>
+	    </div>
     </jsp:attribute>
 </t:main_layout>

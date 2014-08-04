@@ -38,7 +38,7 @@
     font-style: italic;
 }
 
-input, select {
+input, select, textarea {
     border-radius: 4px;
     border-width: 1px;
 }
@@ -85,4 +85,8 @@ input, select {
 .save-button {
 	width: 30%; 
 	margin: auto;
+}
+
+.data {
+    display: none;
 }
