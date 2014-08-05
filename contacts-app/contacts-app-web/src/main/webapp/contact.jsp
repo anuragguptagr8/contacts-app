@@ -229,7 +229,7 @@
 	        <div id="phone-popup">
 	            <form action="#" id="phone_form">
 	                <span class="fa fa-times" id="close"></span>
-	                <h2>Enter a phone number</h2><hr/>
+	                <h2>Enter a phone number</h2>
 	                <div>
 	                    <input type="hidden" name="formPhoneId" id="formPhoneId" value="" />
 	                    <input size="5" type="text" name="countryCodeTxt" id="countryCodeTxt" placeholder="Country code" />                      
