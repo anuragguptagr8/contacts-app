@@ -19,7 +19,7 @@
         <div class="header">
             <h1><a href="<c:url value="/" />">Contacts App</a></h1>
             <div class="header-sidebar">
-                <a href="#"><span class="fa fa-search"></span> Search</a>
+                <a href="<c:url value="/contacts/search"/>"><span class="fa fa-search"></span> Search</a>
             </div>
         </div>
         <div class="container">

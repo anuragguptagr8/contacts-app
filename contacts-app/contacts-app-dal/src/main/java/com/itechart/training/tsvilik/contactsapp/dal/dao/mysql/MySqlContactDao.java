@@ -9,14 +9,19 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.apache.log4j.Logger;
+
 import com.itechart.training.tsvilik.contactsapp.dal.DataAccessException;
 import com.itechart.training.tsvilik.contactsapp.dal.dao.BaseDbDao;
 import com.itechart.training.tsvilik.contactsapp.dal.dao.ContactDao;
 import com.itechart.training.tsvilik.contactsapp.dal.dao.NullableHelper;
 import com.itechart.training.tsvilik.contactsapp.entities.Contact;
+import com.itechart.training.tsvilik.contactsapp.entities.SearchData;
 
 public class MySqlContactDao extends BaseDbDao<Contact, Integer> implements
 		ContactDao {
+
+	private static Logger logger = Logger.getLogger(MySqlContactDao.class);
 
 	protected String contactsTable = "`contacts-app-dev`.`contacts`";
 
@@ -63,17 +68,86 @@ public class MySqlContactDao extends BaseDbDao<Contact, Integer> implements
 		return "SELECT count(*) FROM " + contactsTable;
 	}
 
+	protected String getSearchQuery(SearchData data) {
+		String query = addSearchConditions(data, getSelectQuery());
+		logger.debug("SEARCH QUERY: " + query);
+		return query;
+	}
+
+	private String addSearchConditions(SearchData data, String query) {
+		query += " WHERE ";
+		query += "first_name LIKE '"
+				+ (data.getFirstName() == null ? "" : data.getFirstName())
+				+ "%'";
+		query += " AND last_name LIKE '"
+				+ (data.getLastName() == null ? "" : data.getLastName()) + "%'";
+		query += data.getMiddleName() == null ? "" : " AND middle_name LIKE '"
+				+ data.getMiddleName() + "%'";
+		query += data.getDateAfter() == null ? "" : " AND date_of_birth > '"
+				+ convertDateToSql(data.getDateAfter()) + "'";
+		query += data.getDateBefore() == null ? "" : " AND date_of_birth < '"
+				+ convertDateToSql(data.getDateBefore()) + "'";
+		query += data.getIsMale() == null ? "" : " AND is_male = '"
+				+ (data.getIsMale() ? 1 : 0) + "'";
+		query += data.getCitizenship() == null ? "" : " AND citizenship = '"
+				+ data.getCitizenship() + "'";
+		query += data.getRelationshipStatusId() == null ? ""
+				: " AND relationship_status_id = '"
+						+ data.getRelationshipStatusId() + "'";
+		query += data.getCountry() == null ? "" : " AND country_id = '"
+				+ data.getCountry() + "'";
+		query += data.getCity() == null ? "" : " AND city LIKE '"
+				+ data.getCity() + "%'";
+		query += data.getStreet() == null ? "" : " AND street_address LIKE '"
+				+ data.getStreet() + "%'";
+		query += data.getPostalCode() == null ? "" : " AND zip = '"
+				+ data.getStreet() + "'";
+
+		return query;
+	}
+
 	@Override
 	public List<Contact> getBatch(int batchSize, int batchNumber)
+			throws DataAccessException {
+		String query = getSelectQuery() + " ORDER BY `last_name`, `first_name`";
+		return getBatch(query, batchSize, batchNumber);
+	}
+
+	@Override
+	public List<Contact> search(SearchData data, int batchSize, int batchNumber)
+			throws DataAccessException {
+		String query = getSearchQuery(data)
+				+ " ORDER BY `last_name`, `first_name`";
+		return getBatch(query, batchSize, batchNumber);
+	}
+
+	@Override
+	public int getSearchResultsCount(SearchData data)
+			throws DataAccessException {
+		String query = addSearchConditions(data, getCountQuery());
+		int count = 0;
+		try (Connection connection = dataSource.getConnection()) {
+			PreparedStatement statement = connection.prepareStatement(query);
+			ResultSet rs = statement.executeQuery();
+			if (rs.next()) {
+				count = rs.getInt(1);
+			}
+			statement.close();
+		} catch (SQLException e) {
+			throw new DataAccessException(e);
+		}
+		return count;
+	}
+
+	private List<Contact> getBatch(String query, int batchSize, int batchNumber)
 			throws DataAccessException {
 		if ((batchSize <= 0) || (batchNumber < 0)) {
 			throw new DataAccessException("Wrong parameter values");
 		}
 		List<Contact> batch;
-		String sql = getSelectQuery()
-				+ " ORDER BY `last_name`, `first_name` ASC LIMIT ? OFFSET ?";
+		query = query + " ASC LIMIT ? OFFSET ?";
 		try (Connection connection = dataSource.getConnection()) {
-			PreparedStatement statement = connection.prepareStatement(sql);
+			PreparedStatement statement = connection.prepareStatement(query);
 			statement.setInt(1, batchSize);
 			statement.setInt(2, batchNumber * batchSize);
 			ResultSet rs = statement.executeQuery();
@@ -128,7 +202,8 @@ public class MySqlContactDao extends BaseDbDao<Contact, Integer> implements
 			statement.setDate(4, sqlDate);
 			NullableHelper.setBool(statement, 5, object.getIsMale());
 			statement.setString(6, object.getCitizenship());
-			NullableHelper.setInt(statement, 7, object.getRelationshipStatusId());
+			NullableHelper.setInt(statement, 7,
+					object.getRelationshipStatusId());
 			statement.setString(8, object.getWebsite());
 			statement.setString(9, object.getEmail());
 			statement.setString(10, object.getCompany());
@@ -153,7 +228,8 @@ public class MySqlContactDao extends BaseDbDao<Contact, Integer> implements
 			statement.setDate(4, sqlDate);
 			NullableHelper.setBool(statement, 5, object.getIsMale());
 			statement.setString(6, object.getCitizenship());
-			NullableHelper.setInt(statement, 7, object.getRelationshipStatusId());
+			NullableHelper.setInt(statement, 7,
+					object.getRelationshipStatusId());
 			statement.setString(8, object.getWebsite());
 			statement.setString(9, object.getEmail());
 			statement.setString(10, object.getCompany());
@@ -168,7 +244,7 @@ public class MySqlContactDao extends BaseDbDao<Contact, Integer> implements
 		}
 	}
 
-	protected java.sql.Date convertDateToSql(java.util.Date date) {
+	private java.sql.Date convertDateToSql(java.util.Date date) {
 		if (date == null) {
 			return null;
 		}

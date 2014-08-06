@@ -20,6 +20,7 @@ import com.itechart.training.tsvilik.contactsapp.web.fillers.GenericBeanFiller;
 import com.itechart.training.tsvilik.contactsapp.web.fillers.PhoneListFiller;
 import com.itechart.training.tsvilik.contactsapp.web.fillers.PropertyFormatException;
 import com.itechart.training.tsvilik.contactsapp.web.helpers.ContactHelper;
+import com.itechart.training.tsvilik.contactsapp.web.helpers.SearchHelper;
 
 public class ContactController {
 	private static Logger logger = Logger.getLogger(ContactController.class);
@@ -138,6 +139,8 @@ public class ContactController {
 			request.setAttribute("contacts", requestedContacts);
 			request.setAttribute("page", pageNumber);
 			request.setAttribute("totalpages", ContactHelper.getNumberOfPages());
+			request.setAttribute("nextPageUrl", "/contacts?page=");
+			request.setAttribute("pageName", "Contacts List");
 		} catch (ModelException e) {
 			logger.error("Failed to list contacts", e);
 			request.setAttribute("error-message", e.getMessage());

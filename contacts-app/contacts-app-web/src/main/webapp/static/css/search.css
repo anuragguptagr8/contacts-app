@@ -1,0 +1,21 @@
+.page-name {
+    position: absolute;
+    padding: 10px;
+    font-weight: normal;
+}
+
+.sidebar {
+    text-align: center;
+    padding-top: 20px;
+}
+
+#searchBtn {
+    color: #A5A5A5;
+    text-decoration: none;
+    vertical-align: middle;
+    font-size: x-large;
+}
+
+a#searchBtn:hover {
+    color: #444;
+};

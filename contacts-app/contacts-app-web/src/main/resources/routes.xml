@@ -4,6 +4,11 @@
 		com.itechart.training.tsvilik.contactsapp.web.controllers
 	</controller-package>
 	<routes>
+	    <route>
+            <path>/contacts/search</path>
+            <controller>Search</controller>
+            <action>search</action>
+        </route>
 		<route>
 			<path>/contacts</path>
 			<controller>Contact</controller>
@@ -34,5 +39,6 @@
 			<controller>Contact</controller>
 			<action>list</action>
 		</route>
+		
 	</routes>
 </routing-info>

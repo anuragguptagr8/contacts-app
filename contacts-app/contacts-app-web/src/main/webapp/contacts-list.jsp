@@ -8,6 +8,7 @@
         <script type="text/javascript" src="<c:url value="/static/js/contact-list.js" />"></script>
 	</jsp:attribute>
 	<jsp:attribute name="content">
+	    <h2 class="page-name">${pageName }</h2>
         <form id="contacts_form" method="post" action="<c:url value="/"/>">
 	        <table class="contacts-table">
 		       <thead>
@@ -36,7 +37,7 @@
         <c:if test="${totalpages > 1}">
 	        <div class="pagination">
 	            <c:if test="${page > 1}">
-		            <a href="<c:url value="/contacts?page=${page-1}" />">Previous</a>
+		            <a href="<c:url value="${nextPageUrl}${page-1}" />">Previous</a>
 		            &nbsp;
 	            </c:if>
 	            <c:forEach begin="1" end="${totalpages}" varStatus="loop">
@@ -46,13 +47,13 @@
 	                    </c:when>
 	                    <c:otherwise>
 	                        <a
-								href="<c:url value="/contacts?page=${loop.index}"/>">${loop.index}</a>
+								href="<c:url value="${nextPageUrl}${loop.index}"/>">${loop.index}</a>
 	                    </c:otherwise>
 				    </c:choose>
 				    &nbsp;
 				</c:forEach>
 	            <c:if test="${page < totalpages}">
-	                <a href="<c:url value="/contacts?page=${page+1}" />">Next</a>
+	                <a href="<c:url value="${nextPageUrl}${page+1}" />">Next</a>
 	            </c:if>
 	        </div>
         </c:if>
