@@ -38,6 +38,13 @@ public class AttachmentHelper {
 		}
 	}
 
+	public static File getAttachedFile(Attachment attachment) {
+
+		File requestedFile = new File(SAVE_DIR + File.separator
+				+ attachment.getRealFileName());
+		return requestedFile.exists() ? requestedFile : null;
+	}
+
 	public static List<Attachment> getAttachments(HttpServletRequest request,
 			Map<String, String[]> requestParams) {
 
@@ -52,7 +59,7 @@ public class AttachmentHelper {
 			Attachment attach = new Attachment();
 			attach.setId(convertToInt(requestParams.get("attachId")[i]));
 			if (attach.getId() == null) {
-				loadFileFor(attach, requestParams.get("attachId")[i], request);
+				uploadFileFor(attach, requestParams.get("attachId")[i], request);
 			}
 			attach.setFileName(requestParams.get("attachName")[i]);
 			attach.setComment(requestParams.get("attachComment")[i]);
@@ -65,7 +72,7 @@ public class AttachmentHelper {
 		return result;
 	}
 
-	private static void loadFileFor(Attachment attachment, String attachId,
+	private static void uploadFileFor(Attachment attachment, String attachId,
 			HttpServletRequest request) {
 		logger.debug("load file for attachment with id " + attachId);
 		try {

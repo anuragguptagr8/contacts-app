@@ -195,7 +195,7 @@
                         <input type="hidden" name="attachId" value="${attachment.id}" />
                         <input type="hidden" name="attachName" value="${attachment.fileName}" />
                         <input type="hidden" name="attachComment" value="${attachment.comment}" />
-                        <input type="hidden" name="attachUrl" value="<c:url value="/attachment?id=${attachment.id}" />" />
+                        <input type="hidden" name="attachUrl" value="<c:url value="/contact/attachment?id=${attachment.id}" />" />
                         <input type="hidden" name="attachDate" value="<fmt:formatDate pattern="dd.MM.yyyy" value="${attachment.uploadDate}" />" />
                     </div>
                 </c:forEach>
