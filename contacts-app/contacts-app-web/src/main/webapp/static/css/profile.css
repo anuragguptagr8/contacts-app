@@ -1,9 +1,16 @@
+.page-name {
+	position: absolute;
+    padding: 0;
+    padding-bottom: 10px;
+}
+
 .avatar {
     border: 1px solid #f1eee9;
     border-radius: 4px;
     width: 115px;
     height: 115px;
     position: absolute;
+    top: 4em;
 }
 
 .contact-form {

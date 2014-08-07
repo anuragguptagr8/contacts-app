@@ -20,14 +20,14 @@ function check(e){
     }
 
     if (target.className.match(/edit-attach/)) { 
-        attachmentPopup.style.display = 'block';
         prepareEditAttachmentForm(target.dataset["id"]);
-        // hideMessages(phoneFieldRules);
+        hideMessages(newAttachmentFieldRules);
+        attachmentPopup.style.display = 'block';
     }
     if (target==document.getElementById("addAttachmentBtn")) {
-        attachmentPopup.style.display = 'block'; 
         prepareAddAttachmentForm();
-        // hideMessages(phoneFieldRules);
+        hideMessages(newAttachmentFieldRules);
+        attachmentPopup.style.display = 'block'; 
     }
 }
  

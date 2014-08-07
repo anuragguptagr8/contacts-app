@@ -1,46 +1,25 @@
-// newId = 0;
-
-// var phoneFieldRules = {
-//     "countryCodeTxt" : function(value) {
-//         if (value) {
-//             return hasOnlyDigits(value) && value.length <= 9 &&
-//                 document.getElementById("operatorCodeTxt").value.trim() &&
-//                 document.getElementById("numberTxt").value.trim();
-//         } 
-//         return true;
-//     },
-//     "operatorCodeTxt" : function(value) {
-//         if (value) {
-//             return hasOnlyDigits(value) && value.length <= 9 &&
-//                 document.getElementById("numberTxt").value.trim();
-//         }
-//         return true;
-//     },
-//     "numberTxt" : function(value) {
-//         return value && hasOnlyDigits(value) && value.length <= 9;
-//     },
-//     "commentsTxt" : function(value) {
-//         return value.length <= 300;
-//     }
-// }
-
-// function hasOnlyDigits(value) {
-//     return value.match(/^\d+$/);
-// }
-
-// // validating empty field
-// function check_empty(){
-//     if(document.getElementById('name').value == ""
-//         || document.getElementById('email').value == ""
-//         ||document.getElementById('msg').value == "" ){
-//         alert ("Fill All Fields !");
-//     }
-//     else {
-//         document.getElementById('form').submit();
-//         alert ("Form submitted successfully...");
-//     }
-// }
  
+var newAttachmentFieldRules = {
+    "attachmentFile" : function(value) {
+        return value;
+    },
+    "attachmentName" : function(value) {
+        return value.length <= 256;
+    },
+    "attachmentCommentsTxt" : function(value) {
+        return value.length <= 300;
+    }
+}
+
+var updatedAttachmentFieldRules = {
+    "attachmentName" : function(value) {
+        return value.length <= 256;
+    },
+    "attachmentCommentsTxt" : function(value) {
+        return value.length <= 300;
+    }
+}
+
 //function to display Popup
 function attach_div_show(){
     document.getElementById('attachment-popup-wrapper').style.display = "block";
@@ -67,42 +46,55 @@ function checkAttachParent(t){
 
 function prepareEditAttachmentForm(id) {
     document.getElementById("fileUploadDiv").style.display = "none";
-    document.getElementById("fileNameDiv").style.display = "block";
 
     var attachment = getAttachments()[id];
     document.getElementById("formAttachId").value = attachment.id;
-    document.getElementById("fileNameDiv").innerHTML = "File: " + attachment.name;
+    document.getElementById("attachmentName").value = attachment.name;
     document.getElementById("attachmentCommentsTxt").value = attachment.comment;
 }
 
 function prepareAddAttachmentForm() {
     document.getElementById("fileUploadDiv").style.display = "block";
-    document.getElementById("fileNameDiv").style.display = "none";
-
     document.getElementById("formAttachId").value = "";
-    document.getElementById("fileNameDiv").innerHTML = "";
+    document.getElementById("attachmentName").value = "";
     document.getElementById("attachmentCommentsTxt").value = "";
 }
 
-function saveAttachment() {
+function isAttachmentNew() {
     var id = document.getElementById("formAttachId").value;
     var attachDiv = document.getElementsByClassName("attachment-data").namedItem("attach"+id);
-    if (attachDiv) {
-        updateAttachmentRecord(attachDiv);
-    } else {
-        createNewAttachmentRecord();
-    }
-    updateAttachmentsTable();
+    return !attachDiv;
 }
 
-function updateAttachmentRecord(div) {
+function saveAttachment() {
+    var success = false;
+    if (isAttachmentNew()) {
+        if (validateInputs(newAttachmentFieldRules)) {
+            createNewAttachmentRecord();
+            success = true;
+        }
+    } else { 
+        if (validateInputs(updatedAttachmentFieldRules)) {
+            updateAttachmentRecord();
+            success = true;
+        }
+    }
+    updateAttachmentsTable();
+    return success;
+}
+
+function updateAttachmentRecord() {
+    var id = document.getElementById("formAttachId").value;
+    var div = document.getElementsByClassName("attachment-data").namedItem("attach"+id);
+    div.children.namedItem("attachName").value = document.getElementById("attachmentName").value;
     div.children.namedItem("attachComment").value = document.getElementById("attachmentCommentsTxt").value;
 }
 
 function createNewAttachmentRecord() {
     // <div class="attachment-data" name="attach1">
     //     <input type="hidden" name="attachId" value="1" />
-    //     <input type="file" name="attachName" value="facepalm.gif" />
+    //     <input type="file" name="attachFile2" id="attachFile2"/>
+    //     <input type="hidden" name="attachName" value="facepalm.gif" />
     //     <input type="hidden" name="attachComment" value="some comments" />
     //     <input type="hidden" name="attachUrl" value="lalalaUrl" />
     //     <input type="hidden" name="attachDate" value="31.12.1988" />
@@ -122,13 +114,19 @@ function createNewAttachmentRecord() {
     div.appendChild(input);
 
     var file = document.getElementById("attachmentFile");
-    file.name = "attachName";
+    file.name = "attachFile"+id;
     file.id = "";
     input = document.createElement("input");
     input.type = "file";
     input.id = "attachmentFile";
     file.parentNode.replaceChild(input, file);
     div.appendChild(file);
+
+    input = document.createElement("input");
+    input.type = "hidden";
+    input.name = "attachName";
+    input.value = document.getElementById("attachmentName").value ? document.getElementById("attachmentName").value : file.value;
+    div.appendChild(input);
 
     input = document.createElement("input");
     input.type = "hidden";
@@ -262,26 +260,14 @@ function updateAttachmentsTable() {
 }
 
 addLoadEvent(function() {
-    // document.body.addEventListener("click", check);
     updateAttachmentsTable();
-    // var tableLinks = document.getElementById("phones-table").getElementsByTagName("a");
-    // for (var link of tableLinks) {
-    //     link.addEventListener("click", function() { 
-    //         attach_div_show(); 
-    //     });
-    // }
+
     var attachOkBtn = document.getElementById("attachmentOk");
     attachOkBtn.addEventListener("click", function() {
-        // if (validateInputs(phoneFieldRules)) {
-            saveAttachment();
+        if (saveAttachment()) {
             attach_div_hide();
-        // }
+        }
     });
-    // var addPhoneBtn = document.getElementById("addPhoneBtn");
-    // addPhoneBtn.addEventListener("click", function() {
-    //     clearPhoneForm();
-    //     attach_div_show();
-    // });
     var removeAttachBtn = document.getElementById("removeAttachmentBtn");
     removeAttachBtn.addEventListener("click", function() {
         var selectedIds;

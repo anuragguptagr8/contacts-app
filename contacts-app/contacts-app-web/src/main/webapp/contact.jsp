@@ -15,11 +15,12 @@
         <script type="text/javascript" src="<c:url value="/static/js/events.js" />"></script>
     </jsp:attribute>
     <jsp:attribute name="content">
+        <h2 class="page-name">${pageName }</h2>
         <div class="avatar">
             <img src="<c:url value="/static/img/user.gif" />" />
         </div>
         <div class="contact-form">
-			<form name="contact_form" method="post" action="<c:url value="/contact/save"/>">
+			<form name="contact_form" method="post" action="<c:url value="/contact/save"/>" enctype="multipart/form-data">
 			    <input type="hidden" name="id" value="${contact.id}"/> 
 			    <input type="hidden" name="photoId" value="${contact.photoId}"/>
 			    <div class="field">
@@ -189,13 +190,15 @@
 	                </div>
                 </c:forEach>
                 
-                <div class="attachment-data" name="attach1">
-                    <input type="hidden" name="attachId" value="1" />
-                    <input type="hidden" name="attachName" value="facepalm.gif" />
-                    <input type="hidden" name="attachComment" value="some comments" />
-                    <input type="hidden" name="attachUrl" value="lalalaUrl" />
-                    <input type="hidden" name="attachDate" value="31.12.1988" />
-                </div>
+                <c:forEach items="${attachments}" var="attachment">
+                    <div class="attachment-data" name="attach${attachment.id}">
+                        <input type="hidden" name="attachId" value="${attachment.id}" />
+                        <input type="hidden" name="attachName" value="${attachment.fileName}" />
+                        <input type="hidden" name="attachComment" value="${attachment.comment}" />
+                        <input type="hidden" name="attachUrl" value="<c:url value="/attachment?id=${attachment.id}" />" />
+                        <input type="hidden" name="attachDate" value="<fmt:formatDate pattern="dd.MM.yyyy" value="${attachment.uploadDate}" />" />
+                    </div>
+                </c:forEach>
                 
 			</form>
 	        
@@ -309,9 +312,16 @@
 	                <div id="fileUploadDiv">
 	                    <label for="attachmentFile">Select file </label>
 	                    <input type="file" name="attachmentFile" id="attachmentFile" /> 
+	                    <div class="field-message">
+	                        Can't be empty.
+	                    </div>
 	                </div>
 	                <div id="fileNameDiv">
-	                    File: facepalm.gif
+	                    <label for="attachmentName">Custom file name (optional) </label>
+	                    <input type="text" name="attachmentName" id="attachmentName" /> 
+	                    <div class="field-message">
+	                        Max length is 256 characters.
+	                    </div>
 	                </div>
 	                <div>
 	                    <textarea name="attachmentCommentsTxt" placeholder="Any comments here" id="attachmentCommentsTxt"></textarea>
