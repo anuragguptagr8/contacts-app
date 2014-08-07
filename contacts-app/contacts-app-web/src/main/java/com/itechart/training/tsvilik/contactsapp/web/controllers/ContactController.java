@@ -1,7 +1,6 @@
 package com.itechart.training.tsvilik.contactsapp.web.controllers;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 
 import com.itechart.training.tsvilik.contactsapp.bl.ModelException;
+import com.itechart.training.tsvilik.contactsapp.entities.Attachment;
 import com.itechart.training.tsvilik.contactsapp.entities.Contact;
 import com.itechart.training.tsvilik.contactsapp.entities.PhoneNumber;
 import com.itechart.training.tsvilik.contactsapp.web.ActionResult;
@@ -19,8 +19,9 @@ import com.itechart.training.tsvilik.contactsapp.web.fillers.ContactFiller;
 import com.itechart.training.tsvilik.contactsapp.web.fillers.GenericBeanFiller;
 import com.itechart.training.tsvilik.contactsapp.web.fillers.PhoneListFiller;
 import com.itechart.training.tsvilik.contactsapp.web.fillers.PropertyFormatException;
+import com.itechart.training.tsvilik.contactsapp.web.helpers.AttachmentHelper;
 import com.itechart.training.tsvilik.contactsapp.web.helpers.ContactHelper;
-import com.itechart.training.tsvilik.contactsapp.web.helpers.SearchHelper;
+import com.itechart.training.tsvilik.contactsapp.web.helpers.RequestHelper;
 
 public class ContactController {
 	private static Logger logger = Logger.getLogger(ContactController.class);
@@ -45,6 +46,15 @@ public class ContactController {
 			logger.error("Failed to get contact's numbers.");
 			result.setMessage("Failed to get contact's numbers.");
 		}
+		
+		try {
+			List<Attachment> contactAttachments = BlManager.getAttachmentManager()
+					.getContactAttachments(requestedContactId);
+			request.setAttribute("attachments", contactAttachments);
+		} catch (ModelException e1) {
+			logger.error("Failed to get contact's attachments.");
+			result.setMessage("Failed to get contact's attachments.");
+		}
 
 		try {
 			ContactHelper.prepareContactPage(request);
@@ -52,6 +62,7 @@ public class ContactController {
 			logger.error("Failed to get necessary info for contact page.");
 			result.setMessage("Failed to get necessary info for contact page.");
 		}
+		request.setAttribute("pageName", "Contact info");
 		return result;
 	}
 
@@ -71,6 +82,7 @@ public class ContactController {
 			logger.error("Failed to get necessary info for contact page.");
 			result.setMessage("Failed to get necessary info for contact page.");
 		}
+		request.setAttribute("pageName", "New contact");
 		return result;
 	}
 
@@ -82,16 +94,18 @@ public class ContactController {
 		GenericBeanFiller<Contact> contactFiller = new ContactFiller();
 		GenericBeanFiller<List<PhoneNumber>> numberFiller = new PhoneListFiller();
 		try {
-			contactFiller.fill(contact, request.getParameterMap());
+			Map<String, String[]> requestParams = RequestHelper.extractRequestParameters(request);
+			contactFiller.fill(contact, requestParams);
 			if (contact.getId() == null) {
 				contact = BlManager.getContactManager().save(contact);
 			} else {
 				BlManager.getContactManager().update(contact);
 			}
-			Map<String, String[]> requestParams = new HashMap<String, String[]>(request.getParameterMap());
 			requestParams.put("id", new String[]{ contact.getId().toString() });
 			numberFiller.fill(contactNumbers, requestParams);
 			BlManager.getPhoneNumberManager().updateNumbers(contactNumbers);
+			List<Attachment> attachments = AttachmentHelper.getAttachments(request, requestParams);
+			BlManager.getAttachmentManager().updateAttachments(attachments);
 			result.setReturnPage("/contact?id=" + contact.getId());
 			result.setMessage("The contact has been saved successfully.");
 		} catch (PropertyFormatException e) {

@@ -39,7 +39,7 @@ public class MySqlAttachmentDao extends BaseDbDao<Attachment, Integer> implement
 	@Override
 	public String getUpdateQuery() {
 		return "UPDATE " + attachmentsTable + " SET `filename`=?, "
-				+ "`comment`=?,  WHERE `id`=?;";
+				+ "`comment`=? WHERE `id`=?;";
 	}
 
 	@Override

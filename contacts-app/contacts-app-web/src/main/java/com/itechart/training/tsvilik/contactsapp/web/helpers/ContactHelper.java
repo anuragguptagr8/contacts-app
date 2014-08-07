@@ -90,4 +90,5 @@ public class ContactHelper {
 		List<Integer> phoneTypes = BlManager.getPhoneTypeManager().getAllIds();
 		request.setAttribute("phone_types", phoneTypes);
 	}
+
 }
