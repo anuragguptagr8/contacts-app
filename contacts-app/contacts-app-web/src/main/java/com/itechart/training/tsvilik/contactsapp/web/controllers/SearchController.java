@@ -29,7 +29,6 @@ public class SearchController {
 
 	private ActionResult showResults(HttpServletRequest request) {
 		ActionResult result = new ActionResult("/contacts-list.jsp", request);
-		// result.setRedirectNeeded(true);
 		SearchData data = new SearchData();
 		GenericBeanFiller<SearchData> searchDataFiller = new SearchDataFiller();
 		try {

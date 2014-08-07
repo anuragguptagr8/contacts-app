@@ -8,6 +8,7 @@
 
 <html>
 <head>
+    <meta http-equiv="Content-Type: text/html; charset=UTF-8">
 	<link type="text/css" rel="stylesheet" href="<c:url value="/static/css/layout.css" />" />
 	<link type="text/css" rel="stylesheet" href="<c:url value="/static/css/contacts.css" />"/>
 	<link type="text/css" rel="stylesheet" href="<c:url value="/static/font-awesome-4.1.0/css/font-awesome.min.css" />"/>
@@ -33,7 +34,7 @@
         </div>
         <div class="push"></div>
     </div>
-    <div class="footer"><p>Kiryl Tsvilik for iTechArt Java Courses, 2014</p></div>
+    <div class="footer"><p>Кирилл Tsvilik for iTechArt Java Courses, 2014</p></div>
     <jsp:invoke fragment="bottom_area"/>
 </body>
 </html>

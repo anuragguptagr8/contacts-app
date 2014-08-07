@@ -18,9 +18,10 @@ public class FrontController extends HttpServlet {
 
 	protected void processRequest(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
 		ActionResult result = ActionDispatcher.dispatch(request);
 		// logger.debug("Got result: " + result.getReturnPage());
-
+		
 		if (result.isRedirectNeeded()) {
 			response.sendRedirect(request.getContextPath() + result.getReturnPage());
 		} else {
