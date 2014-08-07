@@ -58,7 +58,7 @@ input, select, textarea {
 
 .attachments-list {
     width: 100%;
-    /* word-break: break-all; */
+    word-break: break-all; 
 }
 
 .attachments-list td {
@@ -87,6 +87,14 @@ input, select, textarea {
 	margin: auto;
 }
 
-.data {
+.data, .attachment-data {
     display: none;
+}
+
+.attachments-list a {
+    text-decoration: none;
+}
+
+.attachments-list a:hover {
+    text-decoration: underline;
 }

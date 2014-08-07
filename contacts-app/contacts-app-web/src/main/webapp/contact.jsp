@@ -8,8 +8,11 @@
         <title>Contacts</title>  
         <link type="text/css" rel="stylesheet" href="<c:url value="/static/css/profile.css" />"/>
         <link type="text/css" rel="stylesheet" href="<c:url value="/static/css/phone.css" />"/>
+        <link type="text/css" rel="stylesheet" href="<c:url value="/static/css/attachment.css" />"/>
         <script type="text/javascript" src="<c:url value="/static/js/contact.js" />"></script>
         <script type="text/javascript" src="<c:url value="/static/js/phone.js" />"></script>
+        <script type="text/javascript" src="<c:url value="/static/js/attachment.js" />"></script>
+        <script type="text/javascript" src="<c:url value="/static/js/events.js" />"></script>
     </jsp:attribute>
     <jsp:attribute name="content">
         <div class="avatar">
@@ -186,11 +189,20 @@
 	                </div>
                 </c:forEach>
                 
+                <div class="attachment-data" name="attach1">
+                    <input type="hidden" name="attachId" value="1" />
+                    <input type="hidden" name="attachName" value="facepalm.gif" />
+                    <input type="hidden" name="attachComment" value="some comments" />
+                    <input type="hidden" name="attachUrl" value="lalalaUrl" />
+                    <input type="hidden" name="attachDate" value="31.12.1988" />
+                </div>
+                
 			</form>
 	        
         </div>  
     </jsp:attribute>
     <jsp:attribute name="sidebar">
+        <div class="label">Phone Numbers</div>
         <table class="button-container">
             <tr>
                 <td>
@@ -223,6 +235,34 @@
             </tbody>
 
         </table>
+        
+        <div class="attachments">
+            <div class="label">Attachments</div>
+            <table class="button-container">
+                <tr>
+                    <td><a href="#" id="addAttachmentBtn" class="button small center-text">Add new</a></td>
+                    <td><a href="#" id="removeAttachmentBtn" class="button small center-text">Remove selected</a></td>
+                </tr>
+            </table>
+            <table id="attachmentTable" class="attachments-list">
+                <tr>
+                    <th class="control-col"></th>
+                    <th></th>
+                    <th></th>
+                    <th class="control-col"></th>
+                </tr>
+                <tr>
+                    <td rowspan=2><input type="checkbox"/></td>
+                    <td><a href="#">facepalm.gif</a></td>
+                    <td>28.04.2014</td>
+                    <td rowspan=2><a href="#" class="fa fa-pencil edit-attach"></a></td>
+                </tr>
+                <tr>
+                    <td colspan=2 class="attachment-comments">Some comments here aldkf lakjfl a lorem</td>
+                </tr>
+                
+            </table>
+        </div>
     </jsp:attribute>
     
     <jsp:attribute name="bottom_area">
@@ -254,6 +294,35 @@
 	                    <tr>
 	                        <td><a href="#" class="button small center-text" id="phoneOk">OK</a></td>
 	                        <td><a href="#" class="button small center-text" id="phoneCancel">Cancel</a></td>
+	                    </tr>
+	                </table>
+	            </form>
+	        </div>
+	    </div>
+	    
+	    <div id="attachment-popup-wrapper">
+	        <div id="attachment-popup">
+	            <form action="#" id="attachment_form">
+	                <span class="fa fa-times" id="attachClose"></span>
+	                <h2>Enter attachment info</h2>
+	                <input type="hidden" name="formAttachId" id="formAttachId" value="" />
+	                <div id="fileUploadDiv">
+	                    <label for="attachmentFile">Select file </label>
+	                    <input type="file" name="attachmentFile" id="attachmentFile" /> 
+	                </div>
+	                <div id="fileNameDiv">
+	                    File: facepalm.gif
+	                </div>
+	                <div>
+	                    <textarea name="attachmentCommentsTxt" placeholder="Any comments here" id="attachmentCommentsTxt"></textarea>
+	                    <div class="field-message">
+	                        Max length is 300 digits.
+	                    </div>
+	                </div>
+	                <table class="button-container">
+	                    <tr>
+	                        <td><a href="#" class="button small center-text" id="attachmentOk">OK</a></td>
+	                        <td><a href="#" class="button small center-text" id="attachmentCancel">Cancel</a></td>
 	                    </tr>
 	                </table>
 	            </form>
