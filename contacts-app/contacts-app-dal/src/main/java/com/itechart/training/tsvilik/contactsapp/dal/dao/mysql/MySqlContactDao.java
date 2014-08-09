@@ -83,9 +83,9 @@ public class MySqlContactDao extends BaseDbDao<Contact, Integer> implements
 				+ (data.getLastName() == null ? "" : data.getLastName()) + "%'";
 		query += data.getMiddleName() == null ? "" : " AND middle_name LIKE '"
 				+ data.getMiddleName() + "%'";
-		query += data.getDateAfter() == null ? "" : " AND date_of_birth > '"
+		query += data.getDateAfter() == null ? "" : " AND date_of_birth >= '"
 				+ convertDateToSql(data.getDateAfter()) + "'";
-		query += data.getDateBefore() == null ? "" : " AND date_of_birth < '"
+		query += data.getDateBefore() == null ? "" : " AND date_of_birth <= '"
 				+ convertDateToSql(data.getDateBefore()) + "'";
 		query += data.getIsMale() == null ? "" : " AND is_male = '"
 				+ (data.getIsMale() ? 1 : 0) + "'";
