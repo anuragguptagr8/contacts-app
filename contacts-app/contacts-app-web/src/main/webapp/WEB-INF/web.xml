@@ -6,7 +6,13 @@
 
 	<listener>
 		<listener-class>
-			com.itechart.training.tsvilik.contactsapp.web.ApplicationServletContextListener</listener-class>
+			com.itechart.training.tsvilik.contactsapp.web.ApplicationServletContextListener
+		</listener-class>
+	</listener>
+	<listener>
+	   <listener-class>
+            org.quartz.ee.servlet.QuartzInitializerListener
+        </listener-class>
 	</listener>
 
 	<servlet>
