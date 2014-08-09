@@ -7,4 +7,10 @@ addLoadEvent(function() {
     	    document.forms["contacts_form"].submit();
     	}
     });
+    var emailButton = document.getElementById("email_btn");
+    emailButton.addEventListener("click", function() { 
+	    document.forms["contacts_form"].action += "email";
+	    document.forms["contacts_form"].method = "get";
+	    document.forms["contacts_form"].submit();
+    });
 });

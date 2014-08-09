@@ -3,6 +3,7 @@ package com.itechart.training.tsvilik.contactsapp.web;
 import com.itechart.training.tsvilik.contactsapp.bl.AttachmentManager;
 import com.itechart.training.tsvilik.contactsapp.bl.ContactManager;
 import com.itechart.training.tsvilik.contactsapp.bl.CountryManager;
+import com.itechart.training.tsvilik.contactsapp.bl.EmailManager;
 import com.itechart.training.tsvilik.contactsapp.bl.PhoneNumberManager;
 import com.itechart.training.tsvilik.contactsapp.bl.PhoneTypeManager;
 import com.itechart.training.tsvilik.contactsapp.bl.PhotoManager;
@@ -10,6 +11,7 @@ import com.itechart.training.tsvilik.contactsapp.bl.RelationshipStatusManager;
 import com.itechart.training.tsvilik.contactsapp.bl.simple.SimpleAttachmentManager;
 import com.itechart.training.tsvilik.contactsapp.bl.simple.SimpleContactManager;
 import com.itechart.training.tsvilik.contactsapp.bl.simple.SimpleCountryManager;
+import com.itechart.training.tsvilik.contactsapp.bl.simple.SimpleEmailManager;
 import com.itechart.training.tsvilik.contactsapp.bl.simple.SimplePhoneNumberManager;
 import com.itechart.training.tsvilik.contactsapp.bl.simple.SimplePhoneTypeManager;
 import com.itechart.training.tsvilik.contactsapp.bl.simple.SimplePhotoManager;
@@ -23,6 +25,7 @@ public class BlManager {
 	private static CountryManager countryManager;
 	private static PhoneTypeManager phoneTypeManager;
 	private static RelationshipStatusManager relationshipStatusManager;
+	private static EmailManager emailManager;
 
 	public static ContactManager getContactManager() {
 		return contactManager == null ? new SimpleContactManager()
@@ -56,5 +59,10 @@ public class BlManager {
 	public static RelationshipStatusManager getRelationshipStatusManager() {
 		return relationshipStatusManager == null ? new SimpleRelationshipStatusManager()
 				: relationshipStatusManager;
+	}
+	
+	public static EmailManager getEmailManager() {
+		return emailManager == null ? new SimpleEmailManager()
+				: emailManager;
 	}
 }

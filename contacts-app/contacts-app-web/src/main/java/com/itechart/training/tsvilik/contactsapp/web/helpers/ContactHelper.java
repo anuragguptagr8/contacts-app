@@ -40,6 +40,9 @@ public class ContactHelper {
 			HttpServletRequest request) {
 		String[] selectedIdStrings = request
 				.getParameterValues("selected_contacts");
+		if (selectedIdStrings == null) {
+			return null;
+		}
 		List<Integer> idList = new ArrayList<Integer>();
 		for (int i = 0; i < selectedIdStrings.length; i++) {
 			try {

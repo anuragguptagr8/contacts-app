@@ -68,7 +68,7 @@
             <span class="fa fa-trash-o fa-fw"></span> 
             Remove selected
         </a>
-        <a class="button" href="#">
+        <a class="button" href="#" name="email_btn" id="email_btn">
             <span class="fa fa-envelope-o fa-fw"></span> 
             Email
         </a>

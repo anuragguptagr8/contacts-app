@@ -34,7 +34,7 @@
         </div>
         <div class="push"></div>
     </div>
-    <div class="footer"><p>Кирилл Tsvilik for iTechArt Java Courses, 2014</p></div>
+    <div class="footer"><p>Kiryl Tsvilik for iTechArt Java Courses, 2014</p></div>
     <jsp:invoke fragment="bottom_area"/>
 </body>
 </html>

@@ -1,5 +1,6 @@
 package com.itechart.training.tsvilik.contactsapp.web.helpers;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +13,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.fileupload.util.Streams;
 import org.apache.log4j.Logger;
 
 public class RequestHelper {
@@ -21,20 +23,21 @@ public class RequestHelper {
 			HttpServletRequest request) {
 		DiskFileItemFactory factory = new DiskFileItemFactory();
 		ServletFileUpload uploadHandler = new ServletFileUpload(factory);
+		uploadHandler.setHeaderEncoding("UTF-8"); 
 		Map<String, List<String>> fieldContainer = new HashMap<String, List<String>>();
 		try {
 			List<FileItem> requestItems = uploadHandler.parseRequest(request);
 			for (FileItem item : requestItems) {
 				String field = item.getFieldName();
 				if (item.isFormField()) {
-					String value = item.getString();
+					String value = Streams.asString(item.getInputStream(), "UTF-8");
 					fieldContainer.putIfAbsent(field, new ArrayList<String>());
 					fieldContainer.get(field).add(value);
 				} else {
 					request.setAttribute(field, item);
 				}
 			}
-		} catch (FileUploadException e) {
+		} catch (FileUploadException | IOException e) {
 			logger.error("Error while processing multipart request.", e);
 		}
 

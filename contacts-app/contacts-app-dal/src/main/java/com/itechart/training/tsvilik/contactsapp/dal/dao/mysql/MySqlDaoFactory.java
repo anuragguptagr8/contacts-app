@@ -1,6 +1,7 @@
 package com.itechart.training.tsvilik.contactsapp.dal.dao.mysql;
 
 import org.apache.tomcat.jdbc.pool.DataSource;
+import org.apache.tomcat.jdbc.pool.PoolConfiguration;
 
 import com.itechart.training.tsvilik.contactsapp.dal.dao.AttachmentDao;
 import com.itechart.training.tsvilik.contactsapp.dal.dao.ContactDao;
