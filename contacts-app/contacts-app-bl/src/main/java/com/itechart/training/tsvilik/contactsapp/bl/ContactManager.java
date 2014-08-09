@@ -1,5 +1,6 @@
 package com.itechart.training.tsvilik.contactsapp.bl;
 
+import java.util.Date;
 import java.util.List;
 
 import com.itechart.training.tsvilik.contactsapp.entities.Contact;
@@ -12,4 +13,6 @@ public interface ContactManager extends EntityManager<Contact, Integer> {
 	List<Contact> search(SearchData data, int batchSize, int batchNumber) throws ModelException;
 	
 	int getSearchResultsCount(SearchData data) throws ModelException;
+	
+	List<Contact> getByBirthday(Date birthday) throws ModelException;
 }

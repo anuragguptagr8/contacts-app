@@ -1,5 +1,6 @@
 package com.itechart.training.tsvilik.contactsapp.dal.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import com.itechart.training.tsvilik.contactsapp.dal.DataAccessException;
@@ -14,4 +15,6 @@ public interface ContactDao extends GenericDao<Contact, Integer> {
 			throws DataAccessException;
 	
 	int getSearchResultsCount(SearchData data) throws DataAccessException;
+	
+	List<Contact> getByBirthday(Date birthday) throws DataAccessException;
 }

@@ -1,5 +1,6 @@
 package com.itechart.training.tsvilik.contactsapp.bl.simple;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -63,6 +64,18 @@ public class SimpleContactManager extends
 			getLogger().error("Failed to get count of search results.", e);
 			throw new ModelException("Failed to get count of search results.",
 					e);
+		}
+	}
+
+	@Override
+	public List<Contact> getByBirthday(Date birthday) throws ModelException {
+		try {
+			return getDao().getByBirthday(birthday);
+		} catch (Exception e) {
+			getLogger().error("Failed to get contacts by birthday " + birthday,
+					e);
+			throw new ModelException("Failed to get contacts by birthday "
+					+ birthday, e);
 		}
 	}
 

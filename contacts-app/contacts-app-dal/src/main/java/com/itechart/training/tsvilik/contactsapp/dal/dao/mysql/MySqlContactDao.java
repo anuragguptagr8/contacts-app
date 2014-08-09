@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -157,6 +158,30 @@ public class MySqlContactDao extends BaseDbDao<Contact, Integer> implements
 			throw new DataAccessException(e);
 		}
 		return batch;
+	}
+
+	@Override
+	public List<Contact> getByBirthday(Date birthday)
+			throws DataAccessException {
+		if (birthday == null) {
+			return new ArrayList<Contact>();
+		}
+		String query = getSelectQuery()
+				+ " WHERE MONTH(date_of_birth) = MONTH(?)"
+				+ "AND DAY(date_of_birth) = DAY(?)";
+		
+		List<Contact> contacts;
+		try (Connection connection = dataSource.getConnection()) {
+			PreparedStatement statement = connection.prepareStatement(query);
+			statement.setDate(1, convertDateToSql(birthday));
+			statement.setDate(2, convertDateToSql(birthday));
+			ResultSet rs = statement.executeQuery();
+			contacts = parseResultSet(rs);
+			statement.close();
+		} catch (SQLException e) {
+			throw new DataAccessException(e);
+		}
+		return contacts;
 	}
 
 	@Override
