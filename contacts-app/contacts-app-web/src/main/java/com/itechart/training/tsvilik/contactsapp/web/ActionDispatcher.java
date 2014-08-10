@@ -33,7 +33,6 @@ public class ActionDispatcher {
 		}
 		Route requestedRoute = null;
 		for (int i = 0; i < routes.size(); i++) {
-//			if (path.equalsIgnoreCase(routes.get(i).getPath())) {
 			if (path.matches("^" + routes.get(i).getPath() + "/?$")) {
 				requestedRoute = routes.get(i);
 				break;
