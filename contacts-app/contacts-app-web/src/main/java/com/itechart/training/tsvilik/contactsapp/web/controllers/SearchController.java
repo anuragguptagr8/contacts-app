@@ -52,6 +52,7 @@ public class SearchController {
 			request.setAttribute("nextPageUrl",
 					SearchHelper.getNextPageUrl(request));
 			request.setAttribute("pageName", "Search Results");
+			logger.info("showed search results");
 		} catch (PropertyFormatException e) {
 			logger.error("Failed to parse a property.", e);
 			result.setMessage("Field format error: " + e.getMessage());
@@ -72,6 +73,7 @@ public class SearchController {
 			logger.error("Failed to get necessary info for search page.");
 			result.setMessage("Failed to get necessary info for search page.");
 		}
+		logger.info("showed search page");
 		return result;
 	}
 }

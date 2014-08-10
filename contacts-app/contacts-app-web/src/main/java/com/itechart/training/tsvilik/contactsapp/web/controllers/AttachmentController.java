@@ -38,7 +38,7 @@ public class AttachmentController {
 		}
 		request.setAttribute("file", requestedFile);
 		request.setAttribute("fileName", attachment.getFileName());
-		logger.debug("requested file name is " + attachment.getFileName());
+		logger.debug("requested download file name is " + attachment.getFileName());
 		return new ActionResult("/download.jsp", request);
 	}
 }

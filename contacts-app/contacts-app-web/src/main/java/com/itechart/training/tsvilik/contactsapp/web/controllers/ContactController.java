@@ -43,8 +43,9 @@ public class ContactController {
 		ContactHelper.loadPhoneNumbers(requestedContactId, request, result);
 		ContactHelper.loadAttachments(requestedContactId, request, result);
 		ContactHelper.loadAdditionalData(request, result);
-		
+
 		request.setAttribute("pageName", "Contact info");
+		logger.info("showed contact's page");
 		return result;
 	}
 
@@ -60,6 +61,7 @@ public class ContactController {
 		ActionResult result = new ActionResult("/contact.jsp", request);
 		ContactHelper.loadAdditionalData(request, result);
 		request.setAttribute("pageName", "New contact");
+		logger.info("showed add contact page");
 		return result;
 	}
 
@@ -71,7 +73,8 @@ public class ContactController {
 		GenericBeanFiller<Contact> contactFiller = new ContactFiller();
 		GenericBeanFiller<List<PhoneNumber>> numberFiller = new PhoneListFiller();
 		try {
-			Map<String, String[]> requestParams = RequestHelper.extractRequestParameters(request);
+			Map<String, String[]> requestParams = RequestHelper
+					.extractRequestParameters(request);
 			contactFiller.fill(contact, requestParams);
 			if (contact.getId() != null) {
 				result.setReturnPage("/contact?id=" + contact.getId());
@@ -85,13 +88,17 @@ public class ContactController {
 			} else {
 				BlManager.getContactManager().update(contact);
 			}
-			requestParams.put("id", new String[]{ contact.getId().toString() });
+			requestParams
+					.put("id", new String[] { contact.getId().toString() });
 			numberFiller.fill(contactNumbers, requestParams);
 			BlManager.getPhoneNumberManager().updateNumbers(contactNumbers);
-			List<Attachment> attachments = AttachmentHelper.getAttachments(request, requestParams);
-			BlManager.getAttachmentManager().updateAttachments(attachments);			
+			List<Attachment> attachments = AttachmentHelper.getAttachments(
+					request, requestParams);
+			BlManager.getAttachmentManager().updateAttachments(attachments);
 			result.setReturnPage("/contact?id=" + contact.getId());
 			result.setMessage("The contact has been saved successfully.");
+			logger.info("The contact " + contact.getId()
+					+ " has been successfully saved.");
 		} catch (PropertyFormatException e) {
 			logger.error("Failed to parse a property.", e);
 			result.setMessage("Field format error: " + e.getMessage());
@@ -125,6 +132,7 @@ public class ContactController {
 		}
 		actionResult
 				.setMessage("Selected contacts has been successfully removed.");
+		logger.info("Selected contacts has been successfully removed.");
 		return actionResult;
 	}
 
@@ -145,6 +153,7 @@ public class ContactController {
 			return new ErrorResult(request);
 		}
 
+		logger.info("Showed contacts list");
 		return new ActionResult("/contacts-list.jsp", request);
 	}
 

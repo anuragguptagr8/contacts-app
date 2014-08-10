@@ -45,6 +45,7 @@ public class EmailController {
 		request.setAttribute("contacts", selectedContacts);
 		request.setAttribute("emails",
 				selectedEmails.substring(0, selectedEmails.length() - 2));
+		logger.info("Showed email page.");
 		return actionResult;
 	}
 
@@ -82,7 +83,7 @@ public class EmailController {
 		} catch (ModelException e) {
 			result.setMessage("Something has gone wrong while sending emails.");			
 		}
-		
+		logger.info("The emails have been successfully sent.");
 		return result;
 	}
 }

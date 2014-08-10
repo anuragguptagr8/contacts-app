@@ -38,7 +38,7 @@ public class PhotoController {
 		}
 		request.setAttribute("file", requestedFile);
 		request.setAttribute("fileName", photo.getFileName());
-		logger.debug("requested photo file name is " + photo.getFileName());
+		logger.info("requested photo file name is " + photo.getFileName());
 		return new ActionResult("/download.jsp", request);
 	}
 }
