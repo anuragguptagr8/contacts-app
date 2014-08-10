@@ -44,9 +44,9 @@ public class PhotoHelper {
 			photosDir = properties.getProperty("photos_dir");
 			photoType = properties.getProperty("photos_type");
 			maxPhotoHeight = Integer.parseInt(properties
-					.getProperty("photos_height"));
+					.getProperty("max_photo_height"));
 			maxPhotoWidth = Integer.parseInt(properties
-					.getProperty("photos_width"));
+					.getProperty("max_photo_width"));
 		} catch (IOException | NumberFormatException e) {
 			logger.error("Failed to get photo properties.", e);
 		} finally {
