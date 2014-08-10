@@ -21,6 +21,9 @@ public class PhoneListFiller implements GenericBeanFiller<List<PhoneNumber>> {
 			phone.setId(convertToInt(properties.get("phoneId")[i]));
 			phone.setCountryCode(convertToInt(properties.get("countryCode")[i]));
 			phone.setOperatorCode(convertToInt(properties.get("operatorCode")[i]));
+			if (properties.get("number")[i] == null) {
+				throw new PropertyFormatException("Phone number can't be empty");
+			}
 			phone.setNumber(convertToInt(properties.get("number")[i]));
 			phone.setTypeId(convertToInt(properties.get("phoneTypeId")[i]));
 			phone.setComment(properties.get("phoneComment")[i]);

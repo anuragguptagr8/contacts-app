@@ -23,7 +23,13 @@ public class ContactFiller implements GenericBeanFiller<Contact> {
 				.get("relationshipStatusId")));
 		contact.setPhotoId(convertToInt(fields.get("pohotoId")));
 		
+		if (fields.get("firstName") == null) {
+			throw new PropertyFormatException("First name can't be empty");
+		}
 		contact.setFirstName(fields.get("firstName"));
+		if (fields.get("lastName") == null) {
+			throw new PropertyFormatException("Last name can't be empty");
+		}
 		contact.setLastName(fields.get("lastName"));
 		contact.setMiddleName(fields.get("middleName"));
 

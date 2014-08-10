@@ -73,6 +73,9 @@ public class ContactController {
 		try {
 			Map<String, String[]> requestParams = RequestHelper.extractRequestParameters(request);
 			contactFiller.fill(contact, requestParams);
+			if (contact.getId() != null) {
+				result.setReturnPage("/contact?id=" + contact.getId());
+			}
 			Photo contactPhoto = PhotoHelper.getPhoto(request);
 			if (contactPhoto != null) {
 				contact.setPhotoId(contactPhoto.getId());
