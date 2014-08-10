@@ -44,6 +44,7 @@ public class ContactFiller implements GenericBeanFiller<Contact> {
 		contact.setCity(fields.get("city"));
 		contact.setStreet(fields.get("street"));
 		contact.setPostalCode(fields.get("postalCode"));
+		contact.setPhotoId(convertToInt(fields.get("photo")));
 	}
 
 	private Map<String, String> processProperties(

@@ -32,6 +32,8 @@ public class AttachmentController {
 		}
 		File requestedFile = AttachmentHelper.getAttachedFile(attachment);
 		if (requestedFile == null) {
+			logger.error("attachment " + attachment.getId() + " "
+					+ attachment.getRealFileName() + " not found");
 			return new NotFoundResult(request);
 		}
 		request.setAttribute("file", requestedFile);

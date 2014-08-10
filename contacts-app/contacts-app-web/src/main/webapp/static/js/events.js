@@ -4,10 +4,12 @@ function check(e){
 
     var obj = document.getElementById('popup-wrapper');
     var attachmentPopup = document.getElementById('attachment-popup-wrapper');
+    var photoPopup = document.getElementById('photo-popup-wrapper');
 
     checkParent(target) ? obj.style.display = 'none' : null;
     checkAttachParent(target) ? attachmentPopup.style.display = 'none' : null;
-    
+    checkPhotoParent(target) ? photoPopup.style.display = 'none' : null;
+
     if ((target.parentElement.className == "phone-no") 
         || (target.className.match(/edit-phone/))) { 
         obj.style.display = 'block'; 
@@ -28,6 +30,12 @@ function check(e){
         prepareAddAttachmentForm();
         hideMessages(newAttachmentFieldRules);
         attachmentPopup.style.display = 'block'; 
+    }
+    if (target==document.getElementById("photoBtn") ||
+        target.parentElement==document.getElementById("photoBtn")) {
+        // prepareAddAttachmentForm();
+        hideMessages(photoFieldRules);
+        photoPopup.style.display = 'block'; 
     }
 }
  

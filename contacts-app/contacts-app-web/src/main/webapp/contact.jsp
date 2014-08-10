@@ -8,21 +8,36 @@
         <title>Contacts</title>  
         <link type="text/css" rel="stylesheet" href="<c:url value="/static/css/profile.css" />"/>
         <link type="text/css" rel="stylesheet" href="<c:url value="/static/css/phone.css" />"/>
+        <link type="text/css" rel="stylesheet" href="<c:url value="/static/css/photo.css" />"/>
         <link type="text/css" rel="stylesheet" href="<c:url value="/static/css/attachment.css" />"/>
         <script type="text/javascript" src="<c:url value="/static/js/contact.js" />"></script>
         <script type="text/javascript" src="<c:url value="/static/js/phone.js" />"></script>
+        <script type="text/javascript" src="<c:url value="/static/js/photo.js" />"></script>
         <script type="text/javascript" src="<c:url value="/static/js/attachment.js" />"></script>
         <script type="text/javascript" src="<c:url value="/static/js/events.js" />"></script>
     </jsp:attribute>
     <jsp:attribute name="content">
         <h2 class="page-name">${pageName }</h2>
         <div class="avatar">
-            <img src="<c:url value="/static/img/user.gif" />" />
+            <a href="#" id="photoBtn">
+                <c:choose>
+                    <c:when test="${contact.photoId == null}">
+		                <img src='<c:url value="/static/img/user.gif" />' />
+                    </c:when>
+                    <c:otherwise>
+                        <img src='<c:url value="/contact/photo?id=${contact.photoId}" />' />
+                    </c:otherwise>
+                </c:choose>
+            </a>
+            <div id="refreshPhotoMsg">Save the contact to update its photo</div>
+            <div id="removePhotoDiv">
+                <a href="#" id="removePhotoBtn" class="button small center-text">Remove photo</a>
+            </div>  
         </div>
         <div class="contact-form">
 			<form name="contact_form" method="post" action="<c:url value="/contact/save"/>" enctype="multipart/form-data">
 			    <input type="hidden" name="id" value="${contact.id}"/> 
-			    <input type="hidden" name="photoId" value="${contact.photoId}"/>
+			    <input type="hidden" name="photo" value="${contact.photoId}"/>
 			    <div class="field">
 				    <div class="field-label">
 				        <label for="firstName">First Name * </label>
@@ -333,6 +348,28 @@
 	                    <tr>
 	                        <td><a href="#" class="button small center-text" id="attachmentOk">OK</a></td>
 	                        <td><a href="#" class="button small center-text" id="attachmentCancel">Cancel</a></td>
+	                    </tr>
+	                </table>
+	            </form>
+	        </div>
+	    </div>
+    
+        <div id="photo-popup-wrapper">
+	        <div id="photo-popup">
+	            <form action="#" id="photo_form">
+	                <span class="fa fa-times" id="photoClose"></span>
+	                <h2>Set a photo</h2>
+	                <div id="photoUploadDiv">
+	                    <label for="popupPhotoFile">Select photo </label>
+	                    <input type="file" name="popupPhotoFile" id="popupPhotoFile" /> 
+	                    <div class="field-message">
+	                        Can't be empty. Only .jpg files are accepted.
+	                    </div>
+	                </div>
+	                <table class="button-container">
+	                    <tr>
+	                        <td><a href="#" class="button small center-text" id="photoOk">OK</a></td>
+	                        <td><a href="#" class="button small center-text" id="photoCancel">Cancel</a></td>
 	                    </tr>
 	                </table>
 	            </form>

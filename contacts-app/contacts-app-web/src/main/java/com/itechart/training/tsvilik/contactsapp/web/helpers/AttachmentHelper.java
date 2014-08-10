@@ -32,7 +32,7 @@ public class AttachmentHelper {
 			properties.load(input);
 			uploadsDir = properties.getProperty("uploads_dir");
 		} catch (IOException | NumberFormatException e) {
-			logger.error("Failed to get contactsPerPage property.", e);
+			logger.error("Failed to get uploads_dir property.", e);
 		} finally {
 			SAVE_DIR = uploadsDir == null ? "c:\\uploads" : uploadsDir;
 		}

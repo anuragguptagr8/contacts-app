@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 
 import com.itechart.training.tsvilik.contactsapp.bl.ModelException;
+import com.itechart.training.tsvilik.contactsapp.entities.Attachment;
+import com.itechart.training.tsvilik.contactsapp.entities.PhoneNumber;
+import com.itechart.training.tsvilik.contactsapp.web.ActionResult;
 import com.itechart.training.tsvilik.contactsapp.web.BlManager;
 
 public class ContactHelper {
@@ -83,15 +86,45 @@ public class ContactHelper {
 				: numberOfPages + 1;
 	}
 
-	public static void prepareContactPage(HttpServletRequest request)
-			throws ModelException {
-		List<String> countries = BlManager.getCountryManager().getAllIds();
-		request.setAttribute("countries", countries);
-		List<Integer> relationshipStatuses = BlManager
-				.getRelationshipStatusManager().getAllIds();
-		request.setAttribute("relationships", relationshipStatuses);
-		List<Integer> phoneTypes = BlManager.getPhoneTypeManager().getAllIds();
-		request.setAttribute("phone_types", phoneTypes);
+	public static void loadAdditionalData(HttpServletRequest request,
+			ActionResult result) {
+		try {
+			List<String> countries = BlManager.getCountryManager().getAllIds();
+			request.setAttribute("countries", countries);
+			List<Integer> relationshipStatuses = BlManager
+					.getRelationshipStatusManager().getAllIds();
+			request.setAttribute("relationships", relationshipStatuses);
+			List<Integer> phoneTypes = BlManager.getPhoneTypeManager()
+					.getAllIds();
+			request.setAttribute("phone_types", phoneTypes);
+		} catch (ModelException e) {
+			logger.error("Failed to get necessary info for contact page.");
+			result.setMessage("Failed to get necessary info for contact page.");
+		}
+	}
+
+	public static void loadPhoneNumbers(int contactId,
+			HttpServletRequest request, ActionResult result) {
+		try {
+			List<PhoneNumber> contactNumbers = BlManager
+					.getPhoneNumberManager().getContactNumbers(contactId);
+			request.setAttribute("numbers", contactNumbers);
+		} catch (ModelException e1) {
+			logger.error("Failed to get contact's numbers.");
+			result.setMessage("Failed to get contact's numbers.");
+		}
+	}
+
+	public static void loadAttachments(int contactId,
+			HttpServletRequest request, ActionResult result) {
+		try {
+			List<Attachment> contactAttachments = BlManager
+					.getAttachmentManager().getContactAttachments(contactId);
+			request.setAttribute("attachments", contactAttachments);
+		} catch (ModelException e1) {
+			logger.error("Failed to get contact's attachments.");
+			result.setMessage("Failed to get contact's attachments.");
+		}
 	}
 
 }
