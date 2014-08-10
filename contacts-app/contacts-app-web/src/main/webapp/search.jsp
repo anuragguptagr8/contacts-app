@@ -78,12 +78,14 @@
                     </div>
                     <div class="field-input">
                         <select name="citizenship">
-                            <option value="">-- Choose a citizenship --</option>
-                            <c:forEach items="${countries}" var="countryId">
-                                <option value="${countryId}" ${contact.citizenship == countryId ? 'selected' : ''} >
-                                         ${countryId}
-                                </option>
-                            </c:forEach>
+                            <fmt:bundle basename="countries">
+                                <option value="">-- Choose a citizenship --</option>
+                                <c:forEach items="${countries}" var="countryId">
+                                    <option value="${countryId}" ${contact.citizenship == countryId ? 'selected' : ''} >
+                                         <fmt:message key="${countryId}" />
+                                    </option>
+                                </c:forEach>
+                            </fmt:bundle>
                         </select>
                     </div>
                 </div>
@@ -93,12 +95,14 @@
                     </div>
                     <div class="field-input">
                         <select name="relationshipStatusId">
-                            <option value="">-- Select a relationship status --</option>
-                            <c:forEach items="${relationships}" var="statusId">
-                                <option value="${statusId}" ${contact.relationshipStatusId == statusId ? 'selected' : ''} >
-                                         ${statusId}
-                                </option>
-                            </c:forEach>
+                            <fmt:bundle basename="relationships">
+                                <option value="">-- Select a relationship status --</option>
+                                <c:forEach items="${relationships}" var="statusId">
+                                    <option value="${statusId}" ${contact.relationshipStatusId == statusId ? 'selected' : ''} >
+                                        <fmt:message key="${statusId}" />
+                                    </option>
+                                </c:forEach>
+                            </fmt:bundle>
                         </select>
                     </div>
                 </div>
@@ -109,12 +113,14 @@
                     </div>
                     <div class="field-input">
                         <select name="country">
-                            <option value="">-- Choose a country --</option>
-                            <c:forEach items="${countries}" var="countryId">
-                                <option value="${countryId}" ${contact.country == countryId ? 'selected' : ''} >
-                                    ${countryId}
-                                </option>
-                            </c:forEach>
+                            <fmt:bundle basename="countries">
+                                <option value="">-- Choose a country --</option>
+                                <c:forEach items="${countries}" var="countryId">
+                                    <option value="${countryId}" ${contact.country == countryId ? 'selected' : ''} >
+                                        <fmt:message key="${countryId}" />
+                                    </option>
+                                </c:forEach>
+                            </fmt:bundle>
                         </select>
                     </div>
                 </div>
