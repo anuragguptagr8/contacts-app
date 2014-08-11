@@ -27,13 +27,19 @@ function fillTemplateSelect() {
         option = document.createElement("option");
         option.value = templateName;
         option.innerHTML = templateName;
-        option.addEventListener("click", function() { 
-            var textarea = document.getElementById("message");
-//            textarea.disabled = (this.value != "None");
-            textarea.value = templates[this.value];
-        })
         select.appendChild(option);
     }
+    var timesSelectClicked = 0;
+    select.addEventListener("click", function(e) { 
+        if (timesSelectClicked == 0) {
+            timesSelectClicked += 1;
+        }
+        else if (timesSelectClicked == 1) {
+            timesSelectClicked = 0;
+            var textarea = document.getElementById("message");
+            textarea.value = templates[e.target.value];
+        }
+    })
 }
 
 addLoadEvent(function() {
