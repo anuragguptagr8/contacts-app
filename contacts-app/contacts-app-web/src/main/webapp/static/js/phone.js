@@ -50,25 +50,6 @@ function div_hide(){
     document.getElementById('popup-wrapper').style.display = "none";
 }
  
-//function to check target element
-function check(e){
-    var target = (e && e.target) || (event && event.srcElement);
-
-    var obj = document.getElementById('popup-wrapper');
-
-    checkParent(target) ? obj.style.display = 'none' : null;
-    if ((target.parentElement.className == "phone-no") 
-        || (target.className.match(/fa-pencil/))) { 
-        obj.style.display = 'block'; 
-        fillPhoneForm(target.dataset["id"]);
-        hideMessages(phoneFieldRules);
-    }
-    if (target==document.getElementById("addPhoneBtn")) {
-        obj.style.display = 'block'; 
-        hideMessages(phoneFieldRules);
-    }
-}
- 
 //function to check parent node and return result accordingly
 function checkParent(t){
     while(t.parentNode){
@@ -89,7 +70,7 @@ function clearPhoneForm() {
     document.getElementById("countryCodeTxt").value = "";
     document.getElementById("operatorCodeTxt").value = "";
     document.getElementById("numberTxt").value = "";
-    document.getElementById("phoneTypeSlct").value = "";
+    // document.getElementById("phoneTypeSlct").value = "";
     document.getElementById("commentsTxt").value = "";
 }
 
@@ -118,7 +99,8 @@ function savePhone() {
 function getSelectedPhoneIds() {
     var checkboxes = document.getElementsByName("phoneChk");
     var selectedIds = [];
-    for (var checkbox of checkboxes) {
+    for (var i = 0; i < checkboxes.length; i++) {
+        var checkbox = checkboxes[i];
         if (checkbox.checked) {
             selectedIds.push(checkbox.dataset["id"]);
         }
@@ -127,7 +109,8 @@ function getSelectedPhoneIds() {
 }
 
 function removePhones(ids) {
-    for (var id of ids) {
+    for (var i = 0; i < ids.length; i++) {
+        var id = ids[i];
         var phoneDiv = document.getElementsByClassName("phone-data").namedItem("phone"+id);
         if (id[id.length-1] == "n") {
             phoneDiv.parentElement.removeChild(phoneDiv);
@@ -196,7 +179,8 @@ function fillPhoneDiv(phoneDiv) {
 function getPhones() {
     var phoneDivs = document.getElementsByClassName("phone-data");
     var phones = {};
-    for (var phoneDiv of phoneDivs) {
+    for (var i = 0; i < phoneDivs.length; i++) {
+        var phoneDiv = phoneDivs[i];
         if (phoneDiv.children.namedItem("phoneId").value[0] != "-") {
             var phone = {
                 id : phoneDiv.children.namedItem("phoneId").value,
@@ -215,7 +199,8 @@ function getPhones() {
 function getPhoneTypes() {
     var options = document.getElementById("phoneTypeSlct").getElementsByTagName("option");
     var types = {};
-    for (var option of options) {
+    for (var i = 0; i < options.length; i++) {
+        var option = options[i];
         types[option.value] = option.innerHTML;
     }
     return types;
@@ -288,7 +273,8 @@ addLoadEvent(function() {
 	document.body.addEventListener("click", check);
     updatePhonesTable();
     var tableLinks = document.getElementById("phones-table").getElementsByTagName("a");
-    for (var link of tableLinks) {
+    for (var i = 0; i < tableLinks.length; i++) {
+        var link = tableLinks[i];
         link.addEventListener("click", function() { 
             div_show(); 
         });

@@ -70,6 +70,9 @@ function saveAttachment() {
     var success = false;
     if (isAttachmentNew()) {
         if (validateInputs(newAttachmentFieldRules)) {
+            if (!document.getElementById("attachmentName").value) {
+                document.getElementById("attachmentName").value = document.getElementById("attachmentFile").value.match(/[^\\]*$/)[0];
+            }
             createNewAttachmentRecord();
             success = true;
         }
@@ -151,16 +154,23 @@ function createNewAttachmentRecord() {
 function getSelectedAttachIds() {
     var checkboxes = document.getElementsByName("attachChk");
     var selectedIds = [];
-    for (var checkbox of checkboxes) {
-        if (checkbox.checked) {
-            selectedIds.push(checkbox.dataset["id"]);
+    for (var i = 0; i < checkboxes.length; i++) {
+        if (!checkboxes.hasOwnProperty(i)) {
+            continue;
+        }
+        if (checkboxes[i].checked) {
+            selectedIds.push(checkboxes[i].dataset["id"]);
         }
     }
     return selectedIds.length ? selectedIds : null;
 }
 
 function removeAttachments(ids) {
-    for (var id of ids) {
+    for (var i = 0; i < ids.length; i++) {
+        if (!ids.hasOwnProperty(i)) {
+            continue;
+        }
+        var id = ids[i];
         var attachDiv = document.getElementsByClassName("attachment-data").namedItem("attach"+id);
         if (id[id.length-1] == "n") {
             attachDiv.parentElement.removeChild(attachDiv);
@@ -173,7 +183,11 @@ function removeAttachments(ids) {
 function getAttachments() {
     var attachDivs = document.getElementsByClassName("attachment-data");
     var attachments = {};
-    for (var attachDiv of attachDivs) {
+    for (var i = 0; i < attachDivs.length; i++) {
+        if (!attachDivs.hasOwnProperty(i)) {
+            continue;
+        }
+        var attachDiv = attachDivs[i];
         if (attachDiv.children.namedItem("attachId").value[0] != "-") {
             var attachment = {
                 id : attachDiv.children.namedItem("attachId").value,

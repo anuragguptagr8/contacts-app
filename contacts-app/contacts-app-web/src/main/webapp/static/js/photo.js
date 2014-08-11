@@ -1,6 +1,6 @@
 var photoFieldRules = {
     "popupPhotoFile" : function(value) {
-        return !!value && value.match(/^.+\.jpg$/);
+        return !!value && value.match(/^.+\.(jpe?g|JPE?G|)$/);
     }
 }
 
